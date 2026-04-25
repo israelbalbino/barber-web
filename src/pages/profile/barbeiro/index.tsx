@@ -11,7 +11,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { setupAPIClient } from "@/services/api";
 
 interface Userprops {

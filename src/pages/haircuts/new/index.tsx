@@ -14,7 +14,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
 import { useContext, useState } from "react";
-import { AuthContext } from "@/pages/context/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 
 interface NewHaircutProps {
   subscription: boolean;

@@ -14,7 +14,7 @@ import {
   import { IoMdPerson } from "react-icons/io";
   import { setupAPIClient } from "@/services/api";
   import { useContext, useState } from "react";
-  import { AuthContext } from "../../context/AuthContext";
+  import { AuthContext } from "../../../context/AuthContext";
   
   import { Poppins } from "next/font/google";
 

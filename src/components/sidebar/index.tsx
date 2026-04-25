@@ -12,7 +12,7 @@ import {
   BoxProps,
   FlexProps,
 } from "@chakra-ui/react";
-import { AuthContext } from "../../pages/context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useContext, useState } from "react";
 
 import {

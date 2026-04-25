@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
 
-import { AuthProvider } from '../pages/context/AuthContext'
+import { AuthProvider } from '../context/AuthContext'
 
 
 const styles = {

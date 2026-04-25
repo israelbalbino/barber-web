@@ -13,7 +13,7 @@ import { canSSRAuth } from "@/utils/canSSRAuth";
 import { Sidebarcli } from "@/components/sidebarland";
 import { setupAPIClient } from "@/services/api";
 import { useContext, useState, useRef } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { api } from "@/services/apiClient";
 
 import {

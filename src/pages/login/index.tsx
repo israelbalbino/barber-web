@@ -6,7 +6,7 @@ import {Flex, Text, Center, Input, Button} from '@chakra-ui/react'
 
 import Link  from "next/link";
 
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 import { canSSRGuest } from "../../utils/canSSRGuest";
 

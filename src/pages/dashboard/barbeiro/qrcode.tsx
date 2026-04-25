@@ -8,7 +8,7 @@ import {
   useMediaQuery
 } from "@chakra-ui/react";
 
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 import { canSSRAuth } from "@/utils/canSSRAuth";

@@ -1,6 +1,6 @@
 
 import { useState,useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import Head from "next/head";
 import Image from "next/image"
 import logoImg from '../../../public/images/logo.png'
