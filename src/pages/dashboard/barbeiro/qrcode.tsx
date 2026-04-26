@@ -42,7 +42,7 @@ export default function QrCodePage() {
       direction="column"
       bg="#0D0D0D"
       gap={6}
-   
+   borderRadius="2xl"
       p={4}
     >
 
@@ -97,20 +97,33 @@ export default function QrCodePage() {
         <Text fontSize="xs" color="gray.400">
           Sistema exclusivo AraBarberPRO
         </Text>
-        <Text>arabarberpro.com</Text>
+        <Text>app.arabarber.pro</Text>
       </Box>
 
+    
+
       <Button
-        onClick={handleDownload}
-        bg="#D4AF37"
-        color="black"
-        
-        _hover={{ bg: "#b8962e" }}
-        size="lg"
-        w={isMobile ? "90%" : "27%"}
-      >
-        Baixar QR Code
-      </Button>
+   onClick={handleDownload}
+   w="100%"
+   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+   color="black"
+   fontWeight="bold"
+   px={6}
+   py={5}
+   rounded="full"
+   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+   transition="all 0.25s ease"
+   _hover={{
+     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+     transform: "translateY(-2px) scale(1.04)",
+     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+   }}
+   _active={{
+     transform: "scale(0.98)",
+   }}
+ >
+ Baixar QR Code
+ </Button>
     </Flex>
    </Sidebar>
   );

@@ -52,7 +52,7 @@ export default function Profile({ user, premium }: ProfileProps) {
       </Head>
 
       <Sidebar>
-        <Flex direction="column" alignItems="flex-start" p={2}>
+        <Flex direction="column" alignItems="flex-start">
 
           {/* HEADER */}
           <Heading color="white" fontSize="2xl" mb={6}>
@@ -64,10 +64,10 @@ export default function Profile({ user, premium }: ProfileProps) {
             
             w="100%"
             maxW="500px"
-            p={8}
+            
             rounded="2xl"
             bg="barber.800"
-            border="1px solid #2A2A2A"
+           
             boxShadow="lg"
             direction="column"
           >
@@ -140,24 +140,34 @@ export default function Profile({ user, premium }: ProfileProps) {
             </Flex>
 
             {/* BOTÃO SALVAR */}
+           
             <Button
-              size="lg"
-              bg="#D4AF37"
-              color="black"
-              rounded="full"
-              _hover={{
-                bg: "#c59b2f",
-                transform: "scale(1.03)",
-              }}
-              mb={4}
+   
+   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+   color="black"
+   fontWeight="bold"
+   px={6}
+   py={5}
+   rounded="full"
+   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+   transition="all 0.25s ease"
+   _hover={{
+     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+     transform: "translateY(-2px) scale(1.04)",
+     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+   }}
+   _active={{
+     transform: "scale(0.98)",
+   }}
+   mb={4}
               onClick={handleUpdateData}
-            >
-              Salvar alterações
-            </Button>
+ >
+   Salvar alterações
+ </Button>
 
             {/* LOGOUT */}
             <Button
-              size="lg"
+            
               variant="outline"
               borderColor="red.500"
               color="red.500"

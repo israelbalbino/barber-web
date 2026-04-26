@@ -16,6 +16,7 @@ import { IoMdPricetag } from "react-icons/io";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
 import { useState } from "react";
+import { FiPlus } from "react-icons/fi";
 
 interface HaircutsItem {
   id: string;
@@ -77,14 +78,27 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
 
             <Flex gap={3} align="center">
               <Link href="/haircuts/new">
-                <Button
-                  bg="#D4AF37"
-                  color="black"
-                  _hover={{ bg: "#c59b2f" }}
-                  rounded="full"
-                >
-                  + Novo
-                </Button>
+              <Button
+   
+   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+   color="black"
+   fontWeight="bold"
+   px={6}
+   py={5}
+   rounded="full"
+   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+   transition="all 0.25s ease"
+   _hover={{
+     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+     transform: "translateY(-2px) scale(1.04)",
+     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+   }}
+   _active={{
+     transform: "scale(0.98)",
+   }}
+ >
+  <FiPlus/>
+ </Button>
               </Link>
 
               <Stack direction="row" align="center">
@@ -107,9 +121,9 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
                 <Flex
                   cursor="pointer"
                   p={4}
-                  bg="barber.800"
-                  rounded="xl"
-                  border="1px solid #2A2A2A"
+                  borderRadius="xl"
+                bg="#0f172a"
+                border="1px solid rgba(255,255,255,0.04)"
                   align={isMobile ? "" : "center"}
                   justify={isMobile ? "" : "space-between"}
                   direction={isMobile ? "column" : "row"}

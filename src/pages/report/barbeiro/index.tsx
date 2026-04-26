@@ -1,267 +1,196 @@
 import {
-    Flex,
-    Heading,
-    Text,
-    Button,
-    Link as ChakraLink,
-    useMediaQuery,
-  } from "@chakra-ui/react";
-  import Head from "next/head";
-  
-  import { canSSRAuth } from "@/utils/canSSRAuth";
-  import { Sidebar } from "@/components/sidebar";
-  import { Sidebarcli } from "@/components/sidebarland";
-  import { IoMdPerson } from "react-icons/io";
-  import { setupAPIClient } from "@/services/api";
-  import { useContext, useState } from "react";
-  import { AuthContext } from "../../../context/AuthContext";
-  
-  import { Poppins } from "next/font/google";
+  Flex,
+  Heading,
+  Text,
+  Button,
+  Link as ChakraLink,
+  useMediaQuery,
+  Box,
+} from "@chakra-ui/react";
+import Head from "next/head";
 
-  import {
-    LineChart,
-    Line,
-    XAxis,
-    Tooltip,
-    ResponsiveContainer,
-    CartesianGrid,
-    YAxis,
-    Area,
-  } from "recharts";
-  
-  const poppins = Poppins({
-    subsets: ["latin"],
-    weight: ["400", "700"],
-  });
-  
-  interface ServiceProps {
-    totalModelos: number;
-    totalServicos: number;
-    ValorService: number;
-    servicosRealizados: ServicesProps[];
-  }
-  
-  export interface ServicesProps {
+import { canSSRAuth } from "@/utils/canSSRAuth";
+import { Sidebar } from "@/components/sidebar";
+import { IoMdPerson } from "react-icons/io";
+import { FiTrendingUp } from "react-icons/fi";
+
+import { setupAPIClient } from "@/services/api";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+
+interface ServiceProps {
+  totalModelos: number;
+  totalServicos: number;
+  ValorService: number;
+  servicosRealizados: ServicesProps[];
+}
+
+export interface ServicesProps {
+  id: string;
+  customer: string;
+  haircut: {
     id: string;
-    customer: string;
-    haircut: {
-      id: string;
-      name: string;
-      price: number | string;
-      status: boolean;
-      user_id: string;
-    };
-  }
-  
-  export default function Barbeiro({
-    totalModelos,
-    totalServicos,
-    ValorService,
-    servicosRealizados,
-  }: ServiceProps) {
-    const [isMobile] = useMediaQuery("(max-width: 768px)");
-    const { user } = useContext(AuthContext);
-  
-    const [services] = useState(totalModelos);
-    const [totalservicos] = useState(totalServicos);
-    const [listService] = useState(servicosRealizados);
+    name: string;
+    price: number | string;
+  };
+}
 
-    const chartData = listService.map((item, index) => ({
-      name: `#${index + 1}`,
-      valor: Number(item.haircut?.price) || 0,
-    }));
-  
-    return (
-      <>
-        <Head>
-          <title>AraBarberPRO - Dashboard</title>
-        </Head>
+export default function Barbeiro({
+  totalModelos,
+  totalServicos,
+  ValorService,
+  servicosRealizados,
+}: ServiceProps) {
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const { user } = useContext(AuthContext);
 
-<Sidebar>
-          <Flex direction="column">
-  
-            {/* HEADER */}
-            <Flex w="100%" direction="column" mb={8}>
-              <Heading color="gray.400" fontSize="md">
-                Bem-vindo de volta
+  const [services] = useState(totalModelos);
+  const [totalservicos] = useState(totalServicos);
+  const [listService] = useState(servicosRealizados);
+
+
+const meta = 1000;
+const porcentagem = (totalServicos / meta) * 100;
+
+  return (
+    <>
+      <Head>
+        <title>AraBarberPRO - Dashboard</title>
+      </Head>
+
+      <Sidebar>
+        <Flex direction="column" gap={6}>
+          {/* HEADER */}
+          <Box>
+            <Text color="gray.500" fontSize="sm">
+              Bem-vindo de volta,
+            </Text>
+            <Heading size="lg" color="white">
+              {user?.name}
+            </Heading>
+          </Box>
+
+          {/* FATURAMENTO */}
+          <Flex
+            p={6}
+            borderRadius="2xl"
+            bg="linear-gradient(135deg, #0f172a, #020617)"
+            border="1px solid rgba(255,255,255,0.05)"
+            boxShadow="0 10px 30px rgba(0,0,0,0.4)"
+            align="center"
+            justify="space-between"
+          >
+            <Box>
+              <Text color="gray.400">FATURAMENTO</Text>
+              <Heading color="green.400" mt={2}>
+                R$ {ValorService}
               </Heading>
-  
-              <Text color="white" fontSize="3xl" fontWeight="bold">
-                {user?.name}
-              </Text>
-            </Flex>
-
-          {
-            user?.client === 'cliente' ? 
-            <>
-            
-            <Flex>
-              
-            </Flex>
-            
-            
-            
-            </>:
-            <>
-            
-            <Flex
-  flex={1}
-  mb={4}
-  p={4}
-  
-  
-  rounded="2xl"
-  bg="barber.800"
-  boxShadow="lg"
-  border="1px solid #2A2A2A"
-  direction="column"
->
-  <Text color="gray.400">GANHOS</Text>
-
-  <Heading color="green.400" mt={2} mb={4}>
-    R$ {ValorService}
-  </Heading>
-
-
-</Flex>
-
-          
-            <Flex>
-            {/* SERVIÇOS */}
-            <Flex
-             flex={1}
-             p={6}
-             rounded="2xl"
-             bg="barber.800"
-             boxShadow="lg"
-             align="center"
-             justify="center"
-             border="1px solid #2A2A2A"
-           >
-             <Flex direction="column" align="center"
-             justify="center">
-               <Text color="gray.400">SERVIÇOS</Text>
-               <Heading color="white">{totalservicos}</Heading>
-             </Flex>
-           </Flex>
-
-
-           
-
-           {/* MODELOS */}
-           <Flex
-             flex={1}
-             p={6}
-             ml={2}
-            
-             rounded="2xl"
-             bg="barber.800"
-             boxShadow="lg"
-             border="1px solid #2A2A2A"
-             align="center"
-             justify="center"
-           >
-             <Flex  direction="column" align="center"
-             justify="center">
-               <Text color="gray.400">MODELOS</Text>
-               <Heading color="white">{services}</Heading>
-             </Flex>
-           </Flex>
-          </Flex>
-         
-
              
-  
-            {/* CARDS */}
-            <Flex
-            mt={4}
-              gap={4}
-              flexDirection={isMobile ? "column" : "column"}
-              w="100%"
+            </Box>
+
+            <Box
+              bg="rgba(34,197,94,0.15)"
+              p={3}
+              borderRadius="xl"
+              color="green.400"
             >
-            
-
-
-              
-
-              {/* LISTA DE SERVIÇOS */}
-            <Flex
-              w="100%"
-              p={6}
-              rounded="2xl"
-              bg="barber.800"
-              border="1px solid #2A2A2A"
-              direction="column"
-            >
-              {/* HEADER LISTA */}
-              <Flex justify="space-between" align="center" mb={4}>
-                <Heading color="gray.400" fontSize="md">
-                  Serviços recentes
-                </Heading>
-  
-                <ChakraLink href="/servicos" _hover={{ textDecoration: "none" }}>
-                  <Button
-                    bg="#D4AF37"
-                    color="black"
-                    size="sm"
-                    rounded="full"
-                    _hover={{
-                      bg: "#c59b2f",
-                      transform: "scale(1.05)",
-                    }}
-                  >
-                    VER TODOS
-                  </Button>
-                </ChakraLink>
-              </Flex>
-  
-              {/* ITENS */}
-              <Flex direction="column">
-                {listService.map((item) => (
-                  <Flex
-                    key={item.id}
-                    w="100%"
-                    p={4}
-                    mb={3}
-                    rounded="xl"
-                    bg="barber.700"
-                    border="1px solid #2A2A2A"
-                    align="center"
-                    justify="space-between"
-                    transition="0.2s"
-                    _hover={{
-                      bg: "barber.900",
-                      transform: "translateY(-2px)",
-                    }}
-                  >
-                    <Flex align="center" gap={3}>
-                      <Flex bg="#D4AF37" p={2} rounded="full">
-                        <IoMdPerson color="#000" size={18} />
-                      </Flex>
-  
-                      <Text color="white">{item.customer}</Text>
-                    </Flex>
-  
-                    <Text color="green.400" fontWeight="bold">
-                      R$ {item.haircut?.price}
-                    </Text>
-                  </Flex>
-                ))}
-              </Flex>
-            </Flex>
-  
-          
-            </Flex>
-            </>
-          }
-  
-            
+              <FiTrendingUp size={22} />
+            </Box>
           </Flex>
-        </Sidebar>
-        
-      </>
-    );
-  }
+
+          {/* STATS */}
+          <Flex gap={4} direction={isMobile ? "column" : "row"}>
+            <Flex
+              flex={1}
+              p={6}
+              borderRadius="2xl"
+              bg="#0f172a"
+              border="1px solid rgba(255,255,255,0.05)"
+              direction="column"
+              align="center"
+            >
+              <Text color="gray.400">SERVIÇOS</Text>
+              <Heading mt={2}>{totalservicos}</Heading>
+              
+            </Flex>
+
+            <Flex
+              flex={1}
+              p={6}
+              borderRadius="2xl"
+              bg="#0f172a"
+              border="1px solid rgba(255,255,255,0.05)"
+              direction="column"
+              align="center"
+            >
+              <Text color="gray.400">MODELOS</Text>
+              <Heading mt={2}>{services}</Heading>
+              
+            </Flex>
+          </Flex>
+
+          {/* LISTA */}
+          <Flex
+            p={2}
+            borderRadius="2xl"
+            bg="#020617"
+            border="1px solid rgba(255,255,255,0.05)"
+            direction="column"
+           
+          >
+            <Flex p={4} justify="space-between" mb={4}>
+              <Heading size="sm">Serviços recentes</Heading>
+
+              <ChakraLink href="/servicos">
+                <Button
+                  size="sm"
+                  bg="transparent"
+                  border="1px solid #D4AF37"
+                  color="#D4AF37"
+                  _hover={{
+                    bg: "#D4AF37",
+                    color: "black",
+                  }}
+                >
+                  VER TODOS
+                </Button>
+              </ChakraLink>
+            </Flex>
+
+            {listService.map((item) => (
+              <Flex
+                key={item.id}
+                p={4}
+                mb={3}
+                borderRadius="xl"
+                bg="#0f172a"
+                border="1px solid rgba(255,255,255,0.04)"
+                justify="space-between"
+                align="center"
+                _hover={{
+                  transform: "translateY(-2px)",
+                  bg: "#111827",
+                }}
+              >
+                <Flex align="center" gap={3}>
+                  <Box bg="#D4AF37" p={2} borderRadius="full">
+                    <IoMdPerson size={18} color="#000" />
+                  </Box>
+
+                  <Text>{item.customer}</Text>
+                </Flex>
+
+                <Text color="green.400" fontWeight="bold">
+                  R$ {item.haircut?.price}
+                </Text>
+              </Flex>
+            ))}
+          </Flex>
+        </Flex>
+      </Sidebar>
+    </>
+  );
+}
   
   export const getServerSideProps = canSSRAuth(async (ctx) => {
     try {

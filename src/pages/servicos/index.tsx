@@ -7,6 +7,7 @@ import {
     useMediaQuery,
     useDisclosure,
     Input,
+    Box,
   } from "@chakra-ui/react";
   import Head from "next/head";
   
@@ -102,13 +103,14 @@ import {
             </Flex>
   
            {/* HEADER LISTA */}
-           <Flex justify="space-between" align="center" mb={4}>
+           <Flex justify="space-between" flexDirection="column" align="left" mb={4}>
                 <Heading color="gray.400" fontSize="md">
-                  Serviços
+                  Ultimos Serviços
                 </Heading>
   
                 {/* DATE PICKER PREMIUM */}
               <Flex
+              mt={4}
                 align="center"
                 bg="barber.800"
                 p={2}
@@ -141,34 +143,32 @@ import {
               {/* ITENS */}
               <Flex direction="column">
                 {listService.map((item) => (
-                  <Flex
-                    key={item.id}
-                    w="100%"
-                    p={4}
-                    mb={3}
-                    rounded="xl"
-                    bg="barber.700"
-                    border="1px solid #2A2A2A"
-                    align="center"
-                    justify="space-between"
-                    transition="0.2s"
-                    _hover={{
-                      bg: "barber.900",
-                      transform: "translateY(-2px)",
-                    }}
-                  >
-                    <Flex align="center" gap={3}>
-                      <Flex bg="#D4AF37" p={2} rounded="full">
-                        <IoMdPerson color="#000" size={18} />
-                      </Flex>
-  
-                      <Text color="white">{item.customer}</Text>
-                    </Flex>
-  
-                    <Text color="green.400" fontWeight="bold">
-                      R$ {item.haircut?.price}
-                    </Text>
-                  </Flex>
+                   <Flex
+                   key={item.id}
+                   p={4}
+                   mb={3}
+                   borderRadius="xl"
+                   bg="#0f172a"
+                   border="1px solid rgba(255,255,255,0.04)"
+                   justify="space-between"
+                   align="center"
+                   _hover={{
+                     transform: "translateY(-2px)",
+                     bg: "#111827",
+                   }}
+                 >
+                   <Flex align="center" gap={3}>
+                     <Box bg="#D4AF37" p={2} borderRadius="full">
+                       <IoMdPerson size={18} color="#000" />
+                     </Box>
+   
+                     <Text>{item.customer}</Text>
+                   </Flex>
+   
+                   <Text color="green.400" fontWeight="bold">
+                     R$ {item.haircut?.price}
+                   </Text>
+                 </Flex>
                 ))}
               </Flex>
           </Flex>

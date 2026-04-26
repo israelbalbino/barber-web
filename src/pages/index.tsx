@@ -3,7 +3,7 @@ import theme from '@/theme'
 import { FiMenu } from 'react-icons/fi'
 import { keyframes } from "@emotion/react";
 import Image from 'next/image';
-import fundo from '../../public/images/fundo.jpg'
+import fundo from '../../public/images/fundo.jpeg'
 import fund from '../../public/images/fund.jpeg'
 import Router  from 'next/router';
 

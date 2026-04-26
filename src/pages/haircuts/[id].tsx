@@ -69,7 +69,7 @@ export default function EditHaircut({
       </Head>
 
       <Sidebar>
-        <Flex direction="column" p={6}>
+        <Flex direction="column">
 
           {/* HEADER */}
           <Flex align="center" mb={6} gap={3}>
@@ -162,20 +162,30 @@ export default function EditHaircut({
             </Flex>
 
             {/* BOTÃO */}
+
             <Button
-              size="lg"
-              bg="#D4AF37"
-              color="black"
-              rounded="full"
-              _hover={{
-                bg: "#c59b2f",
-                transform: "scale(1.03)",
-              }}
-              disabled={subscription?.status !== "active"}
-              onClick={handleUpdate}
-            >
-              Salvar alterações
-            </Button>
+   
+   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+   color="black"
+   fontWeight="bold"
+   px={6}
+   py={5}
+   rounded="full"
+   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+   transition="all 0.25s ease"
+   _hover={{
+     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+     transform: "translateY(-2px) scale(1.04)",
+     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+   }}
+   disabled={subscription?.status !== "active"}
+   onClick={handleUpdate}
+   _active={{
+     transform: "scale(0.98)",
+   }}
+ >
+  Salvar alterações
+ </Button>
 
             {/* AVISO PREMIUM */}
             {subscription?.status !== "active" && (

@@ -6,6 +6,7 @@ import {
   Link as ChakraLink,
   useMediaQuery,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
@@ -19,6 +20,7 @@ import { ModalInfo } from "@/components/modal";
 
 
 import { io } from "socket.io-client";
+import { FiPlus } from "react-icons/fi";
 
 const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`);
 
@@ -131,18 +133,28 @@ export default function Dashboard({ service }: ServiceProps) {
           
 
             <Link href="/dashboard/barbeiro/new">
-              <Button
-                bg="#D4AF37"
-                color="black"
-                rounded="full"
-                _hover={{
-                  bg: "#c59b2f",
-                  transform: "scale(1.05)",
-                }}
-              >
-                + Registrar
-              </Button>
-            </Link>
+  <Button
+   
+    bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+    color="black"
+    fontWeight="bold"
+    px={6}
+    py={5}
+    rounded="full"
+    boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+    transition="all 0.25s ease"
+    _hover={{
+      bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+      transform: "translateY(-2px) scale(1.04)",
+      boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+    }}
+    _active={{
+      transform: "scale(0.98)",
+    }}
+  >
+   <FiPlus/>
+  </Button>
+</Link>
           </Flex>
 
           {/* STATUS (CORTANDO / PRÓXIMO) */}
@@ -156,11 +168,12 @@ export default function Dashboard({ service }: ServiceProps) {
                 flex={1}
                 p={5}
                 rounded="2xl"
-                bg="barber.800"
-                border="1px solid #2A2A2A"
+                borderRadius="xl"
+                bg="#0f172a"
+                border="1px solid rgba(255,255,255,0.04)"
               >
                 <Flex direction="column">
-                  <Text mb={2} color="gray.400">Agora</Text>
+                  <Text fontWeight="bold" mb={2} color="brand.gold">Agora</Text>
                   <Heading color="white" fontSize="lg">
                     {listService[0]?.customer}
                   </Heading>
@@ -180,7 +193,7 @@ export default function Dashboard({ service }: ServiceProps) {
                 border="1px solid #2A2A2A"
               >
                 <Flex direction="column">
-                  <Text mb={2} color="gray.400">Próximo</Text>
+                  <Text fontWeight="bold" mb={2} color="brand.gold">Próximo</Text>
                   <Heading color="white" fontSize="lg">
                     {listService[1]?.customer}
                   </Heading>
@@ -196,36 +209,32 @@ export default function Dashboard({ service }: ServiceProps) {
           <Flex direction="column">
                 {listService.map((item) => (
                   <ChakraLink key={item.id} _hover={{textDecoration:"none"}} onClick={()=>handleFinish(item.id)}>
-                    <Flex
-                    
-                    w="100%"
-                    p={4}
-                    mb={3}
-                    rounded="xl"
-                    bg="barber.700"
-                    border="1px solid #2A2A2A"
-                    align="center"
-                    justify="space-between"
-                    transition="0.2s"
-                    textDecoration="none"
-                    _hover={{
-                      bg: "barber.900",
-                      transform: "translateY(-2px)",
-                      textDecoration:"none"
-                    }}
-                  >
-                    <Flex align="center" gap={3}>
-                      <Flex bg="#D4AF37" p={2} rounded="full">
-                        <IoMdPerson color="#000" size={18} />
-                      </Flex>
-  
-                      <Text textDecoration="none" color="white">{item.customer}</Text>
-                    </Flex>
-  
-                    <Text color="green.400" fontWeight="bold">
-                      R$ {item.haircut?.price}
-                    </Text>
-                  </Flex>
+                   <Flex
+                key={item.id}
+                p={4}
+                mb={3}
+                borderRadius="xl"
+                bg="#0f172a"
+                border="1px solid rgba(255,255,255,0.04)"
+                justify="space-between"
+                align="center"
+                _hover={{
+                  transform: "translateY(-2px)",
+                  bg: "#111827",
+                }}
+              >
+                <Flex align="center" gap={3}>
+                  <Box bg="#D4AF37" p={2} borderRadius="full">
+                    <IoMdPerson size={18} color="#000" />
+                  </Box>
+
+                  <Text>{item.customer}</Text>
+                </Flex>
+
+                <Text color="green.400" fontWeight="bold">
+                  R$ {item.haircut?.price}
+                </Text>
+              </Flex>
                   </ChakraLink>
                 ))}
               </Flex>

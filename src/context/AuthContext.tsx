@@ -104,13 +104,14 @@ export function AuthProvider({ children } : AuthProviderProps){
         if(token){
          api.get('/me').then((response)=>{
 
-            const { id,name,endereco, email, subscriptions } = response.data;
+            const { id,name,endereco, email, subscriptions,client } = response.data;
             setUser({
                 id,
                 name,
                 email,
                 endereco,
-                subscriptions
+                subscriptions,
+                client
             })
 
 

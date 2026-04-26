@@ -30,8 +30,38 @@ export default function NewHaircut({
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | null>(null);
+  const [display, setDisplay] = useState("");
+
+  const formatBRL = (value: number) => {
+    return value.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let raw = e.target.value;
+
+    // remove tudo que não é número
+    const digits = raw.replace(/\D/g, "");
+
+    if (digits === "") {
+      setPrice(null);
+      setDisplay("");
+      return;
+    }
+
+    // transforma em centavos → depois divide
+    const numericValue = Number(digits) / 100;
+
+    setPrice(numericValue);
+    setDisplay(formatBRL(numericValue));
+  };
 
   async function handleHaircut() {
+
+ 
+
     if (!name || !price) return;
 
     await handleNewHaircut({
@@ -46,7 +76,7 @@ export default function NewHaircut({
         <title>AraBarberPRO - Novo Corte</title>
       </Head>
 
-      <Flex direction="column" p={6}>
+      <Flex direction="column" >
 
         {/* HEADER */}
         <Flex align="center" mb={6} gap={3}>
@@ -84,7 +114,7 @@ export default function NewHaircut({
           </Text>
 
           <Input
-            placeholder="Ex: Degradê, Social..."
+            placeholder="Ex: Cabelo Degradê..."
             size="lg"
             bg="barber.900"
             border="1px solid #2A2A2A"
@@ -106,13 +136,13 @@ export default function NewHaircut({
           <Input
             placeholder="Ex: 59.90"
             size="lg"
-            type="number"
+            type="text"
             bg="barber.900"
             border="1px solid #2A2A2A"
             color="white"
             mb={6}
-            value={price ?? ""}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            value={display}
+            onChange={handleChange}
             _focus={{
               borderColor: "#D4AF37",
               boxShadow: "0 0 0 1px #D4AF37",
@@ -121,19 +151,26 @@ export default function NewHaircut({
 
           {/* BOTÃO */}
           <Button
-            size="lg"
-            bg="#D4AF37"
-            color="black"
-            rounded="full"
-            _hover={{
-              bg: "#c59b2f",
-              transform: "scale(1.03)",
-            }}
-            disabled={!subscription && count >= 3}
-            onClick={handleHaircut}
-          >
-            Cadastrar Corte
-          </Button>
+   
+    bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+    color="black"
+    fontWeight="bold"
+    px={6}
+    py={5}
+    rounded="full"
+    boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
+    transition="all 0.25s ease"
+    _hover={{
+      bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
+      transform: "translateY(-2px) scale(1.04)",
+      boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
+    }}
+    _active={{
+      transform: "scale(0.98)",
+    }}
+  >
+   Cadastrar corte
+  </Button>
 
           {/* ALERTA PREMIUM */}
           {!subscription && count >= 3 && (
