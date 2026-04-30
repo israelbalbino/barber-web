@@ -14,7 +14,9 @@ import { FiChevronLeft } from "react-icons/fi";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
 import { useContext, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
+import {AuthContext}  from "../../../context/AuthContext";
+import { parseCookies } from "nookies";
+import Router  from "next/router";
 
 interface NewHaircutProps {
   subscription: boolean;
@@ -26,7 +28,7 @@ export default function NewHaircut({
   count,
 }: NewHaircutProps) {
   const [isMobile] = useMediaQuery("(max-width:768px)");
-  const { handleNewHaircut } = useContext(AuthContext);
+  const { handleNewHaircut }  = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | null>(null);
@@ -64,10 +66,28 @@ export default function NewHaircut({
 
     if (!name || !price) return;
 
-    await handleNewHaircut({
-      name,
-      price,
-    });
+    try {
+      const api = setupAPIClient(); // 👈 SEM ctx no client
+  
+      const { "@barber.token": token } = parseCookies();
+  
+      if (!token) {
+        console.log("SEM TOKEN NO CLIENT");
+        return;
+      }
+  
+      const response = await api.post("/haircut", {
+        name,
+        price,
+      });
+
+     Router.push("/haircuts")
+  
+      return response.data;
+    } catch (error) {
+      console.log("ERRO AO CADASTRAR CORTE", error);
+    }
+  
   }
 
   return (
@@ -151,7 +171,7 @@ export default function NewHaircut({
 
           {/* BOTÃO */}
           <Button
-   
+    onClick={handleHaircut}
     bgGradient="linear(to-r, #D4AF37, #f5d76e)"
     color="black"
     fontWeight="bold"
@@ -216,7 +236,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     return {
       props: {
         subscription:
-          response.data?.subscriptions?.status === "active" ? true : false,
+        response.data?.subscriptions?.status === "active" ? true : false,
         count: count.data,
       },
     };

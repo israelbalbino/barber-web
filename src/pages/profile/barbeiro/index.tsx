@@ -6,6 +6,7 @@ import {
   Box,
   Input,
   Button,
+  Image,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -13,9 +14,12 @@ import { canSSRAuth } from "@/utils/canSSRAuth";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { setupAPIClient } from "@/services/api";
+import { useRouter } from "next/router";
 
 interface Userprops {
   id: string;
+  avatar: string;
+  delete_avatar_url:string;
   name: string;
   email: string;
   endereco: string | null;
@@ -27,22 +31,23 @@ interface ProfileProps {
 }
 
 export default function Profile({ user, premium }: ProfileProps) {
-  const { logoutUser, handleUpdate } = useContext(AuthContext);
+  const { logoutUser } = useContext(AuthContext);
 
   const [name, setName] = useState(user?.name);
   const [endereco, setEndereco] = useState(user?.endereco || "");
 
-  async function handleLogout() {
-    await logoutUser();
-  }
+  const [avatar, setAvatar] = useState(user?.avatar);
+  const [file, setFile] = useState<File | null>(null);
+  const router = useRouter();
+
+
 
   async function handleUpdateData() {
-    if (!name) return;
+   router.push("/profile/barbeiro/edit")
+  }
 
-    await handleUpdate({
-      name,
-      endereco,
-    });
+  async function handleLogout() {
+    await logoutUser()
   }
 
   return (
@@ -52,62 +57,60 @@ export default function Profile({ user, premium }: ProfileProps) {
       </Head>
 
       <Sidebar>
-        <Flex direction="column" alignItems="flex-start">
+        <Flex direction="column">
 
-          {/* HEADER */}
-          <Heading color="white" fontSize="2xl" mb={6}>
+          <Heading color="white" mb={6}>
             Minha Conta
           </Heading>
 
-          {/* CARD */}
           <Flex
-            
             w="100%"
             maxW="500px"
-            
             rounded="2xl"
             bg="barber.800"
-           
-            boxShadow="lg"
             direction="column"
           >
-            {/* NOME */}
+            {/* 🔥 AVATAR EDITÁVEL */}
+            <Flex justify="center" mb={6}>
+             
+                <Box
+                  cursor="pointer"
+                  borderRadius="full"
+                  overflow="hidden"
+                  border="3px solid #D4AF37"
+                  _hover={{ transform: "scale(1.05)" }}
+                  transition="0.2s"
+                >
+                  <Image
+                    src={
+                      avatar ||
+                      "https://ui-avatars.com/api/?name=User&background=D4AF37&color=000"
+                    }
+                    objectFit="cover"
+                    w="150px"
+                    h="150px"
+                  />
+                </Box>
+           
+            </Flex>
+
             <Text color="gray.400" mb={2}>
               Nome da barbearia
             </Text>
 
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              size="lg"
-              bg="barber.900"
-              border="1px solid #2A2A2A"
-              color="white"
-              mb={4}
-              _focus={{
-                borderColor: "#D4AF37",
-                boxShadow: "0 0 0 1px #D4AF37",
-              }}
-            />
+            <Text
+              mb={6}
+              fontSize={18}
+            >{name}</Text>
 
-            {/* ENDEREÇO */}
             <Text color="gray.400" mb={2}>
               Endereço
             </Text>
 
-            <Input
-              value={endereco}
-              onChange={(e) => setEndereco(e.target.value)}
-              size="lg"
-              bg="barber.900"
-              border="1px solid #2A2A2A"
-              color="white"
+            <Text
               mb={6}
-              _focus={{
-                borderColor: "#D4AF37",
-                boxShadow: "0 0 0 1px #D4AF37",
-              }}
-            />
+              fontSize={18}
+            >{endereco}</Text>
 
             {/* PLANO */}
             <Flex
@@ -115,8 +118,6 @@ export default function Profile({ user, premium }: ProfileProps) {
               mb={6}
               rounded="xl"
               bg="barber.900"
-              border="1px solid #2A2A2A"
-              align="center"
               justify="space-between"
             >
               <Text color={premium ? "#D4AF37" : "gray.400"}>
@@ -124,57 +125,26 @@ export default function Profile({ user, premium }: ProfileProps) {
               </Text>
 
               <Link href="/planos/barbeiro">
-                <Box
-                  px={3}
-                  py={1}
-                  rounded="full"
-                  bg={premium ? "transparent" : "#D4AF37"}
-                  color={premium ? "#D4AF37" : "black"}
-                  border={premium ? "1px solid #D4AF37" : "none"}
-                  cursor="pointer"
-                  _hover={{ opacity: 0.8 }}
-                >
+                <Box color="#000" borderRadius="5px" p={2} bg="brand.gold" cursor="pointer">
                   {premium ? "Gerenciar" : "Upgrade"}
                 </Box>
               </Link>
             </Flex>
 
-            {/* BOTÃO SALVAR */}
-           
+            {/* SALVAR */}
             <Button
-   
-   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
-   color="black"
-   fontWeight="bold"
-   px={6}
-   py={5}
-   rounded="full"
-   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
-   transition="all 0.25s ease"
-   _hover={{
-     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
-     transform: "translateY(-2px) scale(1.04)",
-     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
-   }}
-   _active={{
-     transform: "scale(0.98)",
-   }}
-   mb={4}
+              mb={4}
               onClick={handleUpdateData}
- >
-   Salvar alterações
- </Button>
+              bg="#D4AF37"
+              color="black"
+            >
+              Editar informações
+            </Button>
 
             {/* LOGOUT */}
             <Button
-            
               variant="outline"
-              borderColor="red.500"
               color="red.500"
-              rounded="full"
-              _hover={{
-                bg: "rgba(255,0,0,0.05)",
-              }}
               onClick={handleLogout}
             >
               Sair da conta
@@ -193,9 +163,11 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
 
     const user = {
       id: response.data.id,
+      avatar: response.data.avatar,
       name: response.data.name,
       email: response.data.email,
       endereco: response.data?.endereco,
+      delete_avatar_url: response.data?.delete_avatar_url
     };
 
     return {
@@ -213,4 +185,4 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
       },
     };
   }
-});
+},["barbeiro"]);

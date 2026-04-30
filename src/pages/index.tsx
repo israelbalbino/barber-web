@@ -289,6 +289,89 @@ export default function LandingPage() {
     
     </Box>
 
+    <Box
+  py={24}
+  position="relative"
+  bgGradient="linear(to-br, #050505, #111)"
+  overflow="hidden"
+>
+  {/* GLOW PREMIUM */}
+  <Box
+    position="absolute"
+    top="-120px"
+    right="-120px"
+    w="350px"
+    h="350px"
+    bg="rgba(212,175,55,0.15)"
+    filter="blur(120px)"
+    borderRadius="full"
+  />
+
+  <Container maxW="6xl" position="relative">
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={16} alignItems="center">
+
+      {/* LADO ESQUERDO - TEXTO */}
+      <Box>
+        <Text color="brand.gold" fontWeight="bold" mb={2}>
+          EXCLUSIVO AraBarberPRO
+        </Text>
+
+        <Heading color="white" fontSize="4xl" mb={4}>
+          AraButtonPRO
+        </Heading>
+
+          {/* CARD DO PRODUTO */}
+          <Box
+          borderRadius="30px"
+          w="100%"
+          bg="linear-gradient(145deg, #2a2a2a, #0d0d0d)"
+          boxShadow="0 25px 80px rgba(0,0,0,0.9)"
+        >
+          <Box
+            borderRadius="25px"
+            overflow="hidden"
+            w="100%"
+            h="380px"
+            position="relative"
+          >
+            <Image
+              src="/images/arabutton.jpeg"
+              alt="AraButtonPRO"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+
+            {/* OVERLAY GRADIENT */}
+            <Box
+              position="absolute"
+              inset={0}
+              bgGradient="linear(to-t, rgba(0,0,0,0.7), transparent)"
+            />
+
+           
+          </Box>
+        </Box>
+
+        <Text mt={10} color="gray.300" mb={6} fontSize="lg">
+          Um botão físico inteligente que transforma sua barbearia em uma experiência moderna.
+          Com apenas um toque, você organiza sua fila automaticamente e impressiona seus clientes.
+        </Text>
+
+        <Stack spacing={4} mb={8}>
+          <Text color="gray.300">✔ Atendimento mais rápido e organizado</Text>
+          <Text color="gray.300">✔ Clientes acompanham a fila em tempo real</Text>
+          <Text color="gray.300">✔ Experiência premium dentro da barbearia</Text>
+          <Text color="gray.300">✔ Integração total com o sistema</Text>
+        </Stack>
+
+       
+      </Box>
+
+     
+    </SimpleGrid>
+  </Container>
+</Box>
+
 
     
 

@@ -105,7 +105,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               AraBarber
             </Text>
             <Text fontSize="xl" fontWeight="bold" color="#D4AF37" ml={1}>
-              PRO
+              PRO 
             </Text>
           </Flex>
         </Link>

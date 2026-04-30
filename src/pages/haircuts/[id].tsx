@@ -202,13 +202,12 @@ export default function EditHaircut({
                   Atualize para o plano premium para editar cortes.
                 </Text>
 
-                <Link href="/planos">
+                <Link href="/planos/barbeiro">
                   <Text
                     mt={2}
                     color="#D4AF37"
                     fontWeight="bold"
                     cursor="pointer"
-                    _hover={{ textDecoration: "underline" }}
                   >
                     Tornar-se Premium
                   </Text>

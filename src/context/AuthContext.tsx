@@ -19,6 +19,8 @@ interface AuthContextData {
 
 interface UserProps {
     id: string;
+    avatar: string;
+    delete_avatar_url: string;
     name: string;
     email: string;
     client: string;
@@ -43,6 +45,8 @@ interface SignInProps{
 
 interface SignUpProps{
     name:string;
+    avatar: string;
+    delete_avatar_url: string;
     email: string;
     password:string;
     client:string;
@@ -51,6 +55,8 @@ interface SignUpProps{
 interface SignUpdateProps{
     name: string;
     endereco: string;
+    avatar: string;
+    delete_avatar_url:string;
 }
 
 interface HandleHaircut{
@@ -81,6 +87,8 @@ export function signOut(){
     try {
 
         destroyCookie(null, '@barber.token', { path: '/' })
+        destroyCookie(null, '@barber.cliente', { path: '/' })
+         api.defaults.headers.common['Authorization'] = undefined;
         Router.push('/login')
         
     } catch (error) {
@@ -104,14 +112,16 @@ export function AuthProvider({ children } : AuthProviderProps){
         if(token){
          api.get('/me').then((response)=>{
 
-            const { id,name,endereco, email, subscriptions,client } = response.data;
+            const { id,name,endereco, email, subscriptions,client,avatar,delete_avatar_url } = response.data;
             setUser({
                 id,
                 name,
                 email,
                 endereco,
                 subscriptions,
-                client
+                client,
+                avatar,
+                delete_avatar_url
             })
 
 
@@ -131,14 +141,16 @@ export function AuthProvider({ children } : AuthProviderProps){
                 password,
             })
 
-        const { id, name, client, token, subscriptions, endereco } = response.data;
+            
 
-        console.log(response.data)
+        const { id, avatar,delete_avatar_url, name, client, token, subscriptions, endereco } = response.data;
 
+       
+       
         setCookie(undefined, '@barber.token', token, {
-            maxAge:60 * 60 * 24 * 30, // expira em 1 mês
-            path:'/'
-        })
+            maxAge: 60 * 60 * 24 * 30,
+            path: '/',
+          });
 
         setCookie(undefined, "@barber.cliente", client, {
             maxAge: 60 * 60 * 24 * 30,
@@ -147,6 +159,8 @@ export function AuthProvider({ children } : AuthProviderProps){
         
         setUser({
             id,
+            avatar,
+            delete_avatar_url,
             name,
             email,
             client,
@@ -171,17 +185,21 @@ export function AuthProvider({ children } : AuthProviderProps){
         }
     }
 
-    async function signUp({name, email, password, client} : SignUpProps) {
+    async function signUp({name,avatar, delete_avatar_url, email, password, client} : SignUpProps) {
 
       
 
         try {
             const response = await api.post('/users',{
                 name,
+                avatar,
                 email,
                 password,
-                client
+                client,
+                delete_avatar_url
             })
+
+            
 
             Router.push('/login')
 
@@ -192,22 +210,30 @@ export function AuthProvider({ children } : AuthProviderProps){
     }
 
     async function logoutUser() {
-        try {
+      console.log("ok")
+      try {
 
-            destroyCookie(null, '@barber.token', { path: '/' })
-            Router.push('/login')
-            setUser(null)
             
-        } catch (error) {
-            console.log("ERRO AO SAIR")
-        }
+        destroyCookie(null, '@barber.token', { path: '/' })
+        destroyCookie(null, '@barber.cliente', { path: '/' })
+        setUser(null)
+        api.defaults.headers.common.Authorization = undefined;
+      await Router.push("/login");
+      
+       
+        
+    } catch (error) {
+        console.log("ERRO AO SAIR")
+    }
     }
 
-    async function handleUpdate({name,endereco}:SignUpdateProps){
+    async function handleUpdate({name,endereco,avatar,delete_avatar_url}:SignUpdateProps){
         try {
             const response = await api.put('/update',{
                 name,
-                endereco
+                endereco,
+                avatar,
+                delete_avatar_url
             })
 
             Router.push('/report/barbeiro')
@@ -217,25 +243,28 @@ export function AuthProvider({ children } : AuthProviderProps){
         }
     }
 
-    async function handleNewHaircut({name, price}:HandleHaircut) {
-   
-
+    async function handleNewHaircut({ name, price }: HandleHaircut) {
         try {
+        
 
-
-            const response = await api.post('/haircut',{
+             await api.post("/haircut", {
                 name,
-                price
-            })
-            
-            Router.push('/haircuts')
-            
-        } catch (error) {
+                price,
+              })
+      
+          // sucesso → volta pra dashboard
 
-            console.log("ERRO AO CADASTRAR CORTE")
-            
+         Router.push("/haircuts")
+
+        } catch (error: any) {
+          console.log("ERRO AO CADASTRAR CORTE:", error?.response?.data || error);
+      
+          alert(
+            error?.response?.data?.error ||
+            "Erro ao cadastrar corte"
+          );
         }
-    }
+      }
 
     async function handleUpdateHaircut({haircut_id, name, price,status}:HandleUpHaircut) {
         console.log(haircut_id, name, price,status)

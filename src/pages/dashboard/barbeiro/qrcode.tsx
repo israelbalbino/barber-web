@@ -37,23 +37,20 @@ export default function QrCodePage() {
   return (
    <Sidebar>
      <Flex
+     
       align={isMobile ? "center" : "flex-start"}
       justify="center"
       direction="column"
-      bg="#0D0D0D"
       gap={6}
-   borderRadius="2xl"
+      borderRadius="2xl"
       p={4}
     >
 
       {/* 🔥 CARD QUE SERÁ EXPORTADO */}
       <Box
+      
         ref={qrRef}
-        bg="#111"
         p={8}
-        borderRadius="2xl"
-        border="1px solid #D4AF37"
-        boxShadow="0 0 40px rgba(212,175,55,0.3)"
         textAlign="center"
       >
         {/* QR CODE */}
@@ -62,36 +59,20 @@ export default function QrCodePage() {
             value={url}
             size={260}
             level="H"
-            includeMargin
             fgColor="#D4AF37"
             bgColor="#000000"
           />
 
-          {/* 🔥 LOGO CENTRAL */}
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-            bg="#000"
-            borderRadius="full"
-            border="2px solid #D4AF37"
-            px={2}
-            py={1}
-          >
-            <Text
-              fontSize="10px"
-              fontWeight="bold"
-              color="#D4AF37"
-            >
-              {user?.name}
-            </Text>
-          </Box>
+       
         </Box>
 
         {/* TEXTO */}
         <Text mt={5} fontWeight="bold" color="#D4AF37">
           Escaneie para fazer check-in
+        </Text>
+
+        <Text mt={5} fontWeight="bold" color="#D4AF37">
+          {user?.name}
         </Text>
 
         <Text fontSize="xs" color="gray.400">
@@ -104,7 +85,7 @@ export default function QrCodePage() {
 
       <Button
    onClick={handleDownload}
-   w="100%"
+   w="80%"
    bgGradient="linear(to-r, #D4AF37, #f5d76e)"
    color="black"
    fontWeight="bold"
@@ -122,7 +103,7 @@ export default function QrCodePage() {
      transform: "scale(0.98)",
    }}
  >
- Baixar QR Code
+ Baixar QRCode
  </Button>
     </Flex>
    </Sidebar>

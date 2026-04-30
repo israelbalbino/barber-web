@@ -22,8 +22,11 @@ interface HaircutsItem {
   name: string;
 }
 
+
 interface HaircutsProps {
   haircuts: HaircutsItem[];
+ 
+  
 }
 
 export default function New({ haircuts }: HaircutsProps) {
@@ -34,6 +37,7 @@ export default function New({ haircuts }: HaircutsProps) {
   const [customer, setCustomer] = useState("");
   const [haircutList] = useState<HaircutsItem[]>(haircuts || []);
   const [haircut_id, setHaircut_id] = useState(haircutList[0]?.id);
+
 
   async function handleService() {
     if (!customer || !haircut_id) return;
@@ -130,7 +134,7 @@ export default function New({ haircuts }: HaircutsProps) {
           </Select>
 
           <Button
-   
+   onClick={handleService}
    bgGradient="linear(to-r, #D4AF37, #f5d76e)"
    color="black"
    fontWeight="bold"
@@ -163,12 +167,14 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     const response = await apiClient.get("/haircuts", {
       params: {
         status: true,
+        page:1,
+        limit:4
       },
     });
 
     return {
       props: {
-        haircuts: response.data,
+        haircuts: response.data.data,
       },
     };
   } catch (error) {

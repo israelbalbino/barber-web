@@ -259,6 +259,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
     const response = await apiClient.get("/service", {
       params: {
         status: true,
+        data:null
       },
     });
 

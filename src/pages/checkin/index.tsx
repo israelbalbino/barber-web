@@ -41,7 +41,7 @@ export default function CheckinPage() {
 
     api
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}haircut/client?user_id=${barberId}&status=true`
+        `${process.env.NEXT_PUBLIC_API_URL}/haircut/client?user_id=${barberId}&status=true`
       )
       .then((res) => setServices(res.data));
   }, [barberId]);
@@ -60,14 +60,23 @@ export default function CheckinPage() {
   async function handleRegister() {
     if (!selected) return;
 
+    await api.post(`${process.env.NEXT_PUBLIC_API_URL}/notification/new`,{
+      user_id:barberId,
+      title:`${user?.name}`,
+      message:"Realizou um agendamento"
+
+    })
+
     await api.post(
-      `${process.env.NEXT_PUBLIC_API_URL}haircut/client/service`,
+      `${process.env.NEXT_PUBLIC_API_URL}/haircut/client/service`,
       {
         customer: user?.name,
         user_id: barberId,
         haircut_id: selected,
       }
     );
+  
+    
 
     Router.push("/report/cliente");
   }

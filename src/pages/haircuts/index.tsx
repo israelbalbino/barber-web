@@ -5,9 +5,9 @@ import {
   Text,
   Heading,
   Button,
-  Stack,
   Switch,
   useMediaQuery,
+  Spinner,
 } from "@chakra-ui/react";
 
 import Link from "next/link";
@@ -15,7 +15,7 @@ import { IoMdPricetag } from "react-icons/io";
 
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { FiPlus } from "react-icons/fi";
 
 interface HaircutsItem {
@@ -26,33 +26,115 @@ interface HaircutsItem {
   user_id: string;
 }
 
-interface HaircutsProps {
-  haircuts: HaircutsItem[];
+interface HaircutsResponse {
+  data: HaircutsItem[];
+  hasMore: boolean;
+  page: number;
+  total: number;
 }
 
-export default function Haircuts({ haircuts }: HaircutsProps) {
+interface HaircutsProps {
+  haircuts: HaircutsItem[];
+  initialHasMore: boolean;
+}
+
+// 🔥 limite de memória (não travar)
+const MAX_ITEMS = 100;
+
+export default function Haircuts({ haircuts, initialHasMore }: HaircutsProps) {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
   const [active, setActive] = useState(true);
-  const [haircutList, setHaircutList] = useState<HaircutsItem[]>(haircuts || []);
 
-  async function handleToggle() {
+  const [haircutList, setHaircutList] = useState<HaircutsItem[]>(haircuts);
+  const [page, setPage] = useState(2);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  // 🔥 LOAD MAIS OTIMIZADO
+  const loadMore = async () => {
+    if (loadingMore || !hasMore) return;
+
+    try {
+      setLoadingMore(true);
+      const api = setupAPIClient();
+
+      const response = await api.get<HaircutsResponse>("/haircuts", {
+        params: {
+          status: active,
+          page,
+          limit: 4,
+        },
+      });
+
+      setHaircutList((prev) => {
+        const ids = new Set(prev.map((i) => i.id));
+
+        // evita duplicados
+        const newItems = response.data.data.filter((i) => !ids.has(i.id));
+
+        const merged = [...prev, ...newItems];
+
+        // 🔥 evita travar o app
+        return merged.slice(-MAX_ITEMS);
+      });
+
+      setHasMore(response.data.hasMore);
+      setPage((prev) => prev + 1);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  // 🔥 OBSERVER OTIMIZADO (preload antes)
+  const lastItemRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (loadingMore) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasMore) {
+            loadMore();
+          }
+        },
+        {
+          rootMargin: "200px", // 🔥 carrega antes de chegar no fim
+        }
+      );
+
+      if (node) observer.current.observe(node);
+    },
+    [loadingMore, hasMore, page]
+  );
+
+  // 🔄 TROCAR STATUS
+  const handleStatusChange = async () => {
     try {
       const api = setupAPIClient();
 
       const newStatus = !active;
       setActive(newStatus);
 
-      const response = await api.get("/haircuts", {
+      const response = await api.get<HaircutsResponse>("/haircuts", {
         params: {
           status: newStatus,
+          page: 1,
+          limit: 4,
         },
       });
 
-      setHaircutList(response.data);
+      setHaircutList(response.data.data);
+      setHasMore(response.data.hasMore);
+      setPage(2);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <>
@@ -62,7 +144,6 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
 
       <Sidebar>
         <Flex direction="column">
-
           {/* HEADER */}
           <Flex
             direction={isMobile ? "column" : "row"}
@@ -72,108 +153,91 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
             mb={6}
             gap={3}
           >
-            <Heading color="white" fontSize={isMobile ? "2xl" : "3xl"}>
-              Modelos de corte
-            </Heading>
+            <Heading color="white">Modelos de corte</Heading>
 
             <Flex gap={3} align="center">
               <Link href="/haircuts/new">
-              <Button
-   
-   bgGradient="linear(to-r, #D4AF37, #f5d76e)"
-   color="black"
-   fontWeight="bold"
-   px={6}
-   py={5}
-   rounded="full"
-   boxShadow="0 4px 14px rgba(212, 175, 55, 0.4)"
-   transition="all 0.25s ease"
-   _hover={{
-     bgGradient: "linear(to-r, #c59b2f, #e6c65c)",
-     transform: "translateY(-2px) scale(1.04)",
-     boxShadow: "0 6px 20px rgba(212, 175, 55, 0.6)",
-   }}
-   _active={{
-     transform: "scale(0.98)",
-   }}
- >
-  <FiPlus/>
- </Button>
+                <Button
+                  bgGradient="linear(to-r, #D4AF37, #f5d76e)"
+                  color="black"
+                  rounded="full"
+                >
+                  <FiPlus />
+                </Button>
               </Link>
 
-              <Stack direction="row" align="center">
-                
-
-                <Switch
-                  size="lg"
-                  colorScheme="green"
-                  isChecked={active}
-                  onChange={handleToggle}
-                />
-              </Stack>
+              <Switch
+                size="lg"
+                colorScheme="green"
+                isChecked={active}
+                onChange={handleStatusChange}
+              />
             </Flex>
           </Flex>
 
           {/* LISTA */}
           <Flex direction="column" gap={3}>
-            {haircutList.map((item) => (
-              <Link key={item.id} href={`/haircuts/${item.id}`}>
-                <Flex
-                  cursor="pointer"
-                  p={4}
-                  borderRadius="xl"
-                bg="#0f172a"
-                border="1px solid rgba(255,255,255,0.04)"
-                  align={isMobile ? "" : "center"}
-                  justify={isMobile ? "" : "space-between"}
-                  direction={isMobile ? "column" : "row"}
-                  _hover={{
-                    transform: "scale(1.01)",
-                    borderColor: "#D4AF37",
-                  }}
-                >
-                  {/* NOME */}
-                  <Flex align="center" mb={isMobile ? 2 : 0}>
-                    <IoMdPricetag size={22} color="#D4AF37" />
+            {haircutList.map((item, index) => {
+              const isLast = haircutList.length === index + 1;
 
-                    <Flex ml={3} direction="column">
-                      <Text fontSize="xs" color="gray.400">
-                        Corte
-                      </Text>
-
-                      <Text fontWeight="semibold">
-                        {item.name}
-                      </Text>
+              return (
+                <Link key={item.id} href={`/haircuts/${item.id}`}>
+                  <Flex
+                    ref={isLast ? lastItemRef : null}
+                    p={4}
+                    borderRadius="xl"
+                    bg="#0f172a"
+                    border="1px solid rgba(255,255,255,0.04)"
+                    direction={isMobile ? "column" : "row"}
+                    justify="space-between"
+                    transition="0.2s"
+                    _hover={{
+                      transform: "scale(1.02)",
+                      borderColor: "#D4AF37",
+                    }}
+                  >
+                    <Flex align="center">
+                      <IoMdPricetag size={22} color="#D4AF37" />
+                      <Text ml={3}>{item.name}</Text>
                     </Flex>
-                  </Flex>
 
-                  {/* PREÇO */}
-                  <Text fontWeight="bold" color="#22c55e">
-                    R$ {item.price}
-                  </Text>
-                </Flex>
-              </Link>
-            ))}
+                    <Text color="#22c55e">R$ {item.price}</Text>
+                  </Flex>
+                </Link>
+              );
+            })}
+
+            {/* LOADING */}
+            {loadingMore && (
+              <Flex justify="center" mt={4}>
+                <Spinner color="#D4AF37" />
+              </Flex>
+            )}
+
+           
           </Flex>
         </Flex>
       </Sidebar>
     </>
   );
 }
-
 export const getServerSideProps = canSSRAuth(async (ctx) => {
   try {
     const apiClient = setupAPIClient(ctx);
+  
 
     const response = await apiClient.get("/haircuts", {
-      params: {
+      params: { 
         status: true,
-      },
+        page:1,
+        limit: 4, },
+      
     });
 
     return {
       props: {
-        haircuts: response.data,
+        haircuts: response.data.data,
+        initialHasMore: response.data.hasMore,
       },
     };
   } catch (error) {
@@ -186,4 +250,4 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
       },
     };
   }
-},["barbeiro"]);
+}, ["barbeiro"]);
