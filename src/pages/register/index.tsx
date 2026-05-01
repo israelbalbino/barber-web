@@ -12,21 +12,20 @@ import {
   Radio,
   Box,
   Image as ChakraImage,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import Link from "next/link";
 import { canSSRGuest } from "@/utils/canSSRGuest";
 import { Poppins } from "next/font/google";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300"],
-});
-
-const poppins700 = Poppins({
-  subsets: ["latin"],
-  weight: ["700"],
-});
+const poppins = Poppins({ subsets: ["latin"], weight: ["300"] });
+const poppins700 = Poppins({ subsets: ["latin"], weight: ["700"] });
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -37,32 +36,23 @@ export default function Register() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const { signUp } = useContext(AuthContext);
 
-  // 🔥 Upload Cloudinary (robusto)
-  async function uploadImage(file: File){
+  async function uploadImage(file: File) {
     const formData = new FormData();
-  
-    formData.append("image", file); // ✅ correto
-    formData.append("key", "55ea3578fbff56e09afa8253d6beb6af"); // 👈 sua key
-  
-    const response = await fetch(
-      "https://api.imgbb.com/1/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-  
-    if (!response.ok) {
-      throw new Error("Erro ao enviar imagem");
-    }
-  
+    formData.append("image", file);
+    formData.append("key", "55ea3578fbff56e09afa8253d6beb6af");
+
+    const response = await fetch("https://api.imgbb.com/1/upload", {
+      method: "POST",
+      body: formData,
+    });
+
     const data = await response.json();
-  
-  
-    // ✅ aqui estava errado antes
+
     return {
       url: data.data.url,
       deleteUrl: data.data.delete_url,
@@ -70,34 +60,28 @@ export default function Register() {
   }
 
   async function handleRegister() {
+    setError("");
+
     if (!name || !email || !password || !file) {
-      alert("Preencha todos os campos");
+      setError("Preencha todos os campos");
       return;
     }
 
     try {
       setLoading(true);
 
-      let avatarUrl = "";
+      const avatar = await uploadImage(file);
 
-      // 🔥 envia imagem primeiro
-      if (file) {
-      const avatarUrl = await uploadImage(file);
-         // 🔥 envia pro backend já com URL
       await signUp({
         name,
         email,
         password,
         client,
-        avatar: avatarUrl.url,
-        delete_avatar_url: avatarUrl.deleteUrl
+        avatar: avatar.url,
+        delete_avatar_url: avatar.deleteUrl,
       });
-      }
-
-     
     } catch (err) {
-      console.log(err);
-      alert("Erro ao cadastrar usuário");
+      setError("Erro ao criar conta. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -107,9 +91,8 @@ export default function Register() {
     const image = e.target.files[0];
     if (!image) return;
 
-    // 🔥 valida tipo
     if (!image.type.startsWith("image/")) {
-      alert("Selecione uma imagem válida");
+      setError("Selecione uma imagem válida");
       return;
     }
 
@@ -120,50 +103,64 @@ export default function Register() {
   return (
     <>
       <Head>
-        <title>AraBarberPRO - Crie sua conta</title>
+        <title>AraBarberPRO - Criar Conta</title>
       </Head>
 
       <Flex
-        background="barber.900"
-        height="100vh"
-        alignItems="center"
-        justifyContent="center"
+        minH="100vh"
+        align="center"
+        justify="center"
+        bg="radial-gradient(circle at top, #111 0%, #000 100%)"
       >
-        <Flex maxW="90%" color="#FFF" direction="column" rounded={8}>
-          <Center p={4}>
-            <Text fontSize={40} fontWeight="bold">
+        {/* CARD */}
+        <Flex
+          w="100%"
+          maxW="420px"
+          p={8}
+          direction="column"
+          borderRadius="2xl"
+          backdropFilter="blur(20px)"
+          bg="rgba(255,255,255,0.03)"
+          border="1px solid rgba(255,255,255,0.08)"
+          boxShadow="0 20px 60px rgba(0,0,0,0.8)"
+        >
+          {/* LOGO */}
+          <Center mb={6}>
+            <Text fontSize="3xl" fontWeight="bold">
               AraBarber
-            </Text>
-            <Text fontSize={40} fontWeight="extrabold" color="#D4AF37">
-              PRO
+              <Text as="span" color="#D4AF37">PRO</Text>
             </Text>
           </Center>
 
-          {/* 🔥 Upload Avatar */}
-          <Flex direction="column" align="center" mt={4}>
+          {/* ERROR */}
+          {error && (
+            <Alert bg="red.900" status="error" mb={4} borderRadius="lg">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
+
+          {/* UPLOAD */}
+          <Flex justify="center" w="100%" mb={5}>
             <input
               type="file"
               accept="image/*"
               id="avatar"
-              style={{ display: "none" }}
+              hidden
               onChange={handleFile}
+              
             />
 
-            <label htmlFor="avatar">
-              <Flex
+<label htmlFor="avatar" style={{ width: "100%" }}>
+              <Box
                 cursor="pointer"
-                w="300px"
+                w="100%"
                 h="110px"
                 borderRadius="3xl"
                 border="2px dashed #D4AF37"
-                align="center"
-                justify="center"
                 overflow="hidden"
-                transition="0.2s"
-                _hover={{
-                  transform: "scale(1.05)",
-                  borderColor: "#f5d76e",
-                }}
+                transition="0.3s"
+                _hover={{ transform: "scale(1.05)" }}
               >
                 {preview ? (
                   <ChakraImage
@@ -173,102 +170,121 @@ export default function Register() {
                     h="100%"
                   />
                 ) : (
-                  <Flex direction="column" align="center">
-                    <Text fontSize="2xl">📸</Text>
-                    <Text fontSize="xs" color="gray.400" mt={1}>
-                      Clique para adicionar uma imagem
+                  <Center h="100%">
+                    <Text fontSize="xs" color="gray.400">
+                      Clique e adicione uma imagem
                     </Text>
-                  </Flex>
+                  </Center>
                 )}
-              </Flex>
-            </label>
+              </Box>
+
+              </label>
+          
           </Flex>
 
-          {/* Tipo usuário */}
-          <RadioGroup mt={3} onChange={setClient} value={client}>
-            <Stack direction={{ base: "column", md: "row" }} spacing={2}>
-              {[
-                { id: "barbeiro", title: "Barbeiro" },
-                { id: "cliente", title: "Cliente" },
-              ].map((item) => (
+          {/* TYPE */}
+          <RadioGroup value={client} onChange={setClient}>
+            <Stack direction="row" mb={4}>
+              {["barbeiro", "cliente"].map((type) => (
                 <Box
-                  key={item.id}
+                  key={type}
                   flex="1"
-                  p={4}
-                  borderWidth="1px"
-                  borderRadius="lg"
+                  p={3}
+                  borderRadius="xl"
+                  textAlign="center"
                   cursor="pointer"
-                  borderColor={
-                    client === item.id ? "yellow.400" : "gray.600"
-                  }
-                  bg={client === item.id ? "gray.700" : "gray.800"}
-                  onClick={() => setClient(item.id)}
+                  border="1px solid"
+                  borderColor={client === type ? "#D4AF37" : "gray.700"}
+                  bg={client === type ? "rgba(212,175,55,0.1)" : "transparent"}
+                  onClick={() => setClient(type)}
                 >
-                  <Radio value={item.id} colorScheme="yellow">
-                    <Text fontWeight="bold">{item.title}</Text>
+                  <Radio value={type} colorScheme="yellow">
+                    {type}
                   </Radio>
                 </Box>
               ))}
             </Stack>
           </RadioGroup>
 
-          {/* Nome */}
+          {/* INPUTS */}
           <Input
-            mt={4}
-            background="barber.400"
-            variant="filled"
+            placeholder="Nome e sobrenome"
+            mb={3}
             size="lg"
-            placeholder={
-              client === "barbeiro"
-                ? "Nome da Barbearia"
-                : "Nome do cliente"
-            }
+            bg="rgba(255,255,255,0.05)"
+            border="1px solid rgba(255,255,255,0.08)"
+            _focus={{ borderColor: "#D4AF37" }}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          {/* Email */}
           <Input
-            mt={3}
-            background="barber.400"
-            variant="filled"
+            placeholder="Email"
+            mb={3}
             size="lg"
-            placeholder="seu@email.com"
-            type="email"
+            bg="rgba(255,255,255,0.05)"
+            border="1px solid rgba(255,255,255,0.08)"
+            _focus={{ borderColor: "#D4AF37" }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* Senha */}
-          <Input
-            mt={3}
-            background="barber.400"
-            variant="filled"
-            size="lg"
-            placeholder="******"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          {/* SENHA */}
+          <InputGroup mb={4}>
+  <Input
+    background="barber.400"
+    variant="filled"
+    size="lg"
+    placeholder="******"
+    type={showPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    border={error ? "1px solid #FF4D4F" : "1px solid transparent"}
+    _focus={{
+      border: error ? "1px solid #FF4D4F" : "1px solid #D4AF37",
+      boxShadow: "none",
+    }}
+    sx={{
+      "&::-ms-reveal": { display: "none" },
+      "&::-ms-clear": { display: "none" },
+    }}
+  />
 
-          {/* Botão */}
+  <InputRightElement height="100%">
+    <IconButton
+      aria-label="Mostrar senha"
+      variant="ghost"
+      size="sm"
+      onClick={() => setShowPassword(!showPassword)}
+      icon={showPassword ? <FiEyeOff color="#FFF" /> : <FiEye color="#FFF" />}
+      _hover={{ bg: "transparent" }}
+    />
+  </InputRightElement>
+</InputGroup>
+
+          {/* BUTTON */}
           <Button
-            mt={6}
-            onClick={handleRegister}
             isLoading={loading}
-            background="#D4AF37"
-            color="gray.900"
+            loadingText="Criando..."
+            bg="#D4AF37"
+            color="black"
             size="lg"
-            _hover={{ bg: "#D4AF37" }}
+            borderRadius="xl"
+            _hover={{
+              bg: "#f5d76e",
+              transform: "translateY(-2px)",
+              boxShadow: "0 10px 25px rgba(212,175,55,0.4)",
+            }}
+            onClick={handleRegister}
           >
-            Cadastrar
+            Criar conta
           </Button>
 
-          {/* Login */}
-          <Center mt={4}>
+          {/* LOGIN */}
+          <Center mt={5}>
             <Link href="/login">
-              <Text cursor="pointer">
-                Já possui uma conta? <strong>Faça login</strong>
+              <Text fontSize="sm" color="gray.400" cursor="pointer">
+                Já tem conta? <strong>Entrar</strong>
               </Text>
             </Link>
           </Center>
@@ -279,7 +295,5 @@ export default function Register() {
 }
 
 export const getServerSideProps = canSSRGuest(async () => {
-  return {
-    props: {},
-  };
+  return { props: {} };
 });
