@@ -231,7 +231,7 @@ export default function Login() {
           <Button
   w="100%"
   mb={2}
-  h="56px"
+  h="40px"
   borderRadius="xl"
   position="relative"
   overflow="hidden"
@@ -262,8 +262,6 @@ export default function Login() {
           speed="0.6s"
           color="black"
         />
-
-        <Text>Entrando...</Text>
       </>
     ) : (
       "Acessar"
@@ -286,11 +284,19 @@ export default function Login() {
 </Button>
 
           {/* LINK */}
-          <Text textAlign="center" color="gray.400" fontSize="sm">
+          <Text mt={4} textAlign="center" color="gray.400" fontSize="sm">
             Ainda não possui conta?{" "}
             <Link href="/register">
               <Text as="span" color="#D4AF37" cursor="pointer">
                 Criar conta
+              </Text>
+            </Link>
+          </Text>
+          <Text textAlign="center" color="gray.400" fontSize="sm">
+            Perdeu a senha?{" "}
+            <Link href="/login/recovery">
+              <Text as="span" color="#D4AF37" cursor="pointer">
+                Recuperar senha
               </Text>
             </Link>
           </Text>
