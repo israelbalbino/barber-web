@@ -9,6 +9,7 @@ import {
   Flex,
   IconButton,
   Badge,
+  Avatar,
 } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "@/services/apiClient";
@@ -34,13 +35,14 @@ export default function CheckinPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
 
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!barberId) return;
 
     api
-      .get(
+    .get(
         `${process.env.NEXT_PUBLIC_API_URL}/haircut/client?user_id=${barberId}&status=true`
       )
       .then((res) => setServices(res.data));
@@ -60,19 +62,13 @@ export default function CheckinPage() {
   async function handleRegister() {
     if (!selected) return;
 
-    await api.post(`${process.env.NEXT_PUBLIC_API_URL}/notification/new`,{
-      user_id:barberId,
-      title:`${user?.name}`,
-      message:"Realizou um agendamento"
-
-    })
-
     await api.post(
       `${process.env.NEXT_PUBLIC_API_URL}/haircut/client/service`,
       {
         customer: user?.name,
         user_id: barberId,
         haircut_id: selected,
+        Avatar:user?.avatar
       }
     );
   
