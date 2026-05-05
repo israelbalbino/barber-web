@@ -77,6 +77,7 @@ interface HandleUpHaircut{
 interface HandleNewService{
     customer: string;
     haircut_id: string;
+    avatar: string;
 }
 
 
@@ -287,14 +288,15 @@ export function AuthProvider({ children } : AuthProviderProps){
         }
     }
 
-    async function handleNewService({haircut_id,customer} : HandleNewService) {
+    async function handleNewService({haircut_id,customer,avatar} : HandleNewService) {
 
        
         try {
 
             const response = await api.post('/service',{
                 haircut_id,
-                customer
+                customer,
+                avatar
             })
             
             Router.push('/dashboard/barbeiro')

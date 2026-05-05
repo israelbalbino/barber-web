@@ -62,7 +62,7 @@ const [listService] = useState(servicosRealizados);
   
 
     // 🔥 SOCKET IO
-    const socket = io("http://localhost:3333", {
+    const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
       transports: ["websocket"],
     });
 
