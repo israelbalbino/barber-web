@@ -90,6 +90,9 @@ export default function Edit({ user, premium }: ProfileProps) {
           avatar: avatarUpload.url,
           delete_avatar_url: avatarUpload.deleteUrl,
         });
+
+        router.push("/report/cliente");
+        
       } else {
         await handleUpdate({
           name,
@@ -97,6 +100,8 @@ export default function Edit({ user, premium }: ProfileProps) {
           avatar: user?.avatar,
           delete_avatar_url: user?.delete_avatar_url,
         });
+
+        router.push("/report/cliente");
       }
 
       // 🔥 Redireciona após salvar
