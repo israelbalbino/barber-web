@@ -43,7 +43,7 @@ export default function Edit({ user, premium }: ProfileProps) {
   const [file, setFile] = useState<File | null>(null);
 
   function handleCancel() {
-    router.push("/profile/barbeiro");
+    router.push("/profile/cliente");
   }
 
   async function uploadImage(file: File) {
