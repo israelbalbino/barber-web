@@ -37,6 +37,7 @@ export default function New({ haircuts }: HaircutsProps) {
   const [customer, setCustomer] = useState("");
   const [haircutList] = useState<HaircutsItem[]>(haircuts || []);
   const [haircut_id, setHaircut_id] = useState(haircutList[0]?.id);
+  const [avatar, setAvatar] = useState("")
 
 
   async function handleService() {
@@ -45,6 +46,7 @@ export default function New({ haircuts }: HaircutsProps) {
     await handleNewService({
       haircut_id,
       customer,
+      avatar
     });
   }
 

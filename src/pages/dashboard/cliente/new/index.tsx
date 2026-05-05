@@ -29,11 +29,12 @@ interface HaircutsProps {
 export default function New({ haircuts }: HaircutsProps) {
   const [isMobile] = useMediaQuery("(max-width:768px)");
 
-  const { handleNewService } = useContext(AuthContext);
+  const { handleNewService,user } = useContext(AuthContext);
 
   const [customer, setCustomer] = useState("");
   const [haircutList] = useState<HaircutsItem[]>(haircuts || []);
   const [haircut_id, setHaircut_id] = useState(haircutList[0]?.id);
+  const [avatar,setAvatar] = useState(user?.avatar)
 
   async function handleService() {
     if (!customer || !haircut_id) return;
@@ -41,6 +42,7 @@ export default function New({ haircuts }: HaircutsProps) {
     await handleNewService({
       haircut_id,
       customer,
+      avatar
     });
   }
 
