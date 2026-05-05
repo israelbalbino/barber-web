@@ -96,7 +96,7 @@ export default function Profile({ user, premium }: ProfileProps) {
             </Flex>
 
             <Text color="gray.400" mb={2}>
-              Nome
+              Nome da barbearia
             </Text>
 
             <Text

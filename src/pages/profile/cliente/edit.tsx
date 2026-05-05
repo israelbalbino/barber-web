@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/sidebar";
+import { Sidebarcli } from "../../../components/sidebarland";
 import {
   Heading,
   Flex,
@@ -16,7 +16,6 @@ import { AuthContext } from "../../../context/AuthContext";
 import { setupAPIClient } from "@/services/api";
 import { useRouter } from "next/router";
 import { FiCamera } from "react-icons/fi";
-import { Sidebarcli } from "@/components/sidebarland";
 
 interface Userprops {
   id: string;
@@ -83,21 +82,24 @@ export default function Edit({ user, premium }: ProfileProps) {
     try {
       if (file) {
         const avatarUpload = await uploadImage(file);
-        const api = setupAPIClient();
 
-     await api.put('/update',{
+        await handleUpdate({
           name,
           endereco,
           avatar: avatarUpload.url,
           delete_avatar_url: avatarUpload.deleteUrl,
-      })
-      
+        });
+      } else {
+        await handleUpdate({
+          name,
+          endereco,
+          avatar: user?.avatar,
+          delete_avatar_url: user?.delete_avatar_url,
+        });
+      }
 
-      } 
-      
-// 🔥 Redireciona após salvar
-router.push("/report/cliente");
-      
+      // 🔥 Redireciona após salvar
+      router.push("/report/cliente");
 
     } catch (err) {
       console.log(err);
@@ -193,7 +195,7 @@ router.push("/report/cliente");
             </Flex>
 
             <Text color="gray.400" mb={2}>
-              Nome da barbearia
+              Nome
             </Text>
 
             <Input

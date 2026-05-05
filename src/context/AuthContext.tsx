@@ -237,7 +237,7 @@ export function AuthProvider({ children } : AuthProviderProps){
                 delete_avatar_url
             })
 
-            Router.push('/report/barbeiro')
+           
 
         } catch (error) {
             console.log("Erro ao cadastrar")
