@@ -83,21 +83,21 @@ export default function Edit({ user, premium }: ProfileProps) {
     try {
       if (file) {
         const avatarUpload = await uploadImage(file);
+        const api = setupAPIClient();
 
-        await handleUpdate({
+     await api.put('/update',{
           name,
           endereco,
           avatar: avatarUpload.url,
           delete_avatar_url: avatarUpload.deleteUrl,
-        });
-
+      })
       
 
       } 
       
-
-      // 🔥 Redireciona após salvar
-      router.push("/report/cliente");
+// 🔥 Redireciona após salvar
+router.push("/report/cliente");
+      
 
     } catch (err) {
       console.log(err);
