@@ -522,9 +522,9 @@ export default function Cliente({ totalServicos,shedule }: ServiceProps) {
     >
       <Flex align="center" gap={3}>
         {i.avatar ? (
-          <Image src={i.avatar} w={50} bg="#D4AF37" />
+          <Image borderRadius="full" src={i.avatar} w={50} h={50} bg="#D4AF37" />
         ) : (
-          <Avatar size="sm" bg="#D4AF37" />
+          <Avatar borderRadius="full" w={50} h={50}  size="sm" bg="#D4AF37" />
         )}
 
         <Box>

@@ -19,6 +19,7 @@ import { LuArrowBigRight,LuArrowBigLeft } from "react-icons/lu";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
 
+
 type Service = {
   id: string;
   name: string;
@@ -27,7 +28,9 @@ type Service = {
   popular?: boolean;
 };
 
-export default function CheckinPage() {
+
+
+export default function CheckinPage(avatar) {
   const searchParams = useSearchParams();
   const barberId = searchParams.get("barberId");
   const { user } = useContext(AuthContext);
@@ -40,6 +43,7 @@ export default function CheckinPage() {
 
   useEffect(() => {
     if (!barberId) return;
+    
 
     api
     .get(
@@ -59,8 +63,12 @@ export default function CheckinPage() {
     });
   }
 
+  
+
   async function handleRegister() {
     if (!selected) return;
+
+
 
     await api.post(
       `${process.env.NEXT_PUBLIC_API_URL}/haircut/client/service`,
@@ -68,7 +76,7 @@ export default function CheckinPage() {
         customer: user?.name,
         user_id: barberId,
         haircut_id: selected,
-        Avatar:user?.avatar
+        avatar:avatar
       }
     );
   
@@ -169,11 +177,34 @@ export default function CheckinPage() {
 
 export const getServerSideProps = canSSRAuth(
   async (ctx) => {
+
+   try{
+
+  
+
+    const apiClient = setupAPIClient(ctx)
+    
+    
+
+    const response = await apiClient.get("/me");
+
+
+    
+
     return {
       props: {
-        
+        avatar:
+          response.data?.avatar,
       }
+    }
+   }catch(error){
+    return {
+      redirect: {
+        destination: "/report/cliente",
+        permanent: false,
+      },
     };
+   }
   },
   ["cliente"]
 );
