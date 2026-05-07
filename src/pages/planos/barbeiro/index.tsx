@@ -135,8 +135,12 @@ export default function Planos({ premium }: PlanosProps) {
                 • Atualizações futuras
               </Text>
 
+              <Text color="gray.300" mb={2}>
+                • AraButtonPRO
+              </Text>
+
               <Heading color="#D4AF37" mt={4} mb={4}>
-                R$99,90 / mês
+                R$49,90 / mês
               </Heading>
 
               {/* BOTÃO PRINCIPAL */}
