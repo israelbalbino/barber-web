@@ -6,6 +6,7 @@ import Image from 'next/image';
 import fundo from '../../public/images/fundo.jpeg'
 import fund from '../../public/images/fund.jpeg'
 import Router  from 'next/router';
+import AdsBanner from '@/components/AdsBanner';
 
 const shine = keyframes`
   0% { transform: translateX(-100%) skewX(-20deg); }
@@ -673,6 +674,9 @@ export default function LandingPage() {
       overflow="hidden"
     >
       {/* Glow topo */}
+
+     
+
       <Box
         position="absolute"
         top="0"
@@ -683,9 +687,11 @@ export default function LandingPage() {
         bg="linear-gradient(90deg, transparent, #D4AF37, transparent)"
       />
 
+      
+
       <Container maxW="6xl">
         <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
-          
+      
           {/* LOGO + DESCRIÇÃO */}
           <Stack spacing={4}>
             <Heading size="md" color="white">
@@ -742,6 +748,8 @@ export default function LandingPage() {
           </Flex>
         </Flex>
       </Container>
+
+    
     </Box>
 
 

@@ -15,7 +15,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { setupAPIClient } from "@/services/api";
 import { useRouter } from "next/router";
-import AdsBanner from "@/components/AdsBanner";
+
 
 interface Userprops {
   id: string;
@@ -152,9 +152,7 @@ export default function Profile({ user, premium }: ProfileProps) {
             </Button>
           </Flex>
 
-          {
-            premium ? <></> : <AdsBanner />
-          }
+          
 
         </Flex>
 

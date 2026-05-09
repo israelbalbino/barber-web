@@ -32,7 +32,7 @@ import { motion } from "framer-motion";
 import { FiArrowRight, FiRefreshCw, FiScissors, FiX } from "react-icons/fi";
 import { io } from "socket.io-client";
 import { useRouter } from "next/router";
-import AdsBanner from "@/components/AdsBanner";
+
 
 interface ServiceProps {
   totalServicos: ServicesProps[];
@@ -433,10 +433,7 @@ export default function Cliente({ totalServicos,shedule }: ServiceProps) {
               );
             })}
           </Box>
-          
-          {
-            isPremiumView ? <></> : <AdsBanner />
-          }
+        
           
         </Flex>
 
