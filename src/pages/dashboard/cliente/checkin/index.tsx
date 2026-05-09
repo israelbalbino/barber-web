@@ -11,7 +11,7 @@ import {
   Badge,
   Avatar,
 } from "@chakra-ui/react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../../context/AuthContext";
 import { api } from "@/services/apiClient";
 import Router from "next/router";
 

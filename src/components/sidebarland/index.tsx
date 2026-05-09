@@ -110,6 +110,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           </Flex>
         </Link>
 
+        
+
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
 

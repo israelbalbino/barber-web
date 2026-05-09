@@ -18,7 +18,7 @@ export default function QrCodePage() {
   const { user } = useContext(AuthContext);
   const qrRef = useRef<HTMLDivElement>(null);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
-  const url = `${process.env.NEXT_PUBLIC_DOMINIO_URL}checkin?barberId=${user?.id}`;
+  const url = `${process.env.NEXT_PUBLIC_DOMINIO_URL}dashboard/cliente/checkin?barberId=${user?.id}`;
 
   async function handleDownload() {
     if (!qrRef.current) return;

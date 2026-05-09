@@ -131,7 +131,7 @@ export default function Planos({ premium }: PlanosProps) {
               </Text>
 
               <Heading color="#D4AF37" mt={4} mb={4}>
-                R$ 9,90 / mês
+                R$ 19,90 / mês
               </Heading>
 
               {/* BOTÃO PRINCIPAL */}

@@ -28,7 +28,7 @@ export default function ScanPage() {
           navigator.vibrate?.(200);
 
           scanner.stop();
-          router.push(`/checkin?barberId=${barberId}`);
+          router.push(`/dashboard/cliente/checkin?barberId=${barberId}`);
         } catch {
           alert("QR inválido");
         }
