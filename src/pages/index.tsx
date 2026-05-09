@@ -6,7 +6,7 @@ import Image from 'next/image';
 import fundo from '../../public/images/fundo.jpeg'
 import fund from '../../public/images/fund.jpeg'
 import Router  from 'next/router';
-import AdsBanner from '@/components/AdsBanner';
+
 
 const shine = keyframes`
   0% { transform: translateX(-100%) skewX(-20deg); }

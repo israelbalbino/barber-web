@@ -3,7 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
 
 import { AuthProvider } from '../context/AuthContext'
-import Script from 'next/script'
+
 
 
 const styles = {
@@ -62,8 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return ( 
     <ChakraProvider theme={theme}>
       <AuthProvider>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5627724928850492"
-     crossOrigin="anonymous"></script>
+   
         <Component {...pageProps} />
       </AuthProvider>
     </ChakraProvider>
