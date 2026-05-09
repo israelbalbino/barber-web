@@ -84,13 +84,30 @@ export default function ChartCard({
         Faturamento semanal
       </Heading>
 
-      <Box flex={1}>
+      <Box sx={{
+    ".recharts-wrapper:focus": {
+      outline: "none",
+    },
+
+    ".recharts-surface:focus": {
+      outline: "none",
+    },
+
+    ".recharts-responsive-container:focus": {
+      outline: "none",
+    },
+
+    "svg:focus": {
+      outline: "none",
+    },
+  }} flex={1}>
         <ResponsiveContainer
           width="100%"
           height="100%"
         >
           <LineChart
             data={data}
+            
             style={{
               outline: "none",
             }}
@@ -114,12 +131,13 @@ export default function ChartCard({
             <Tooltip
               content={<CustomTooltip />}
               cursor={{
-                stroke: "#D4AF37",
+                stroke: "#FFF",
                 strokeDasharray: "5 5",
               }}
             />
 
             <Line
+            
               type="monotone"
               dataKey="Total"
               stroke="#D4AF37"
@@ -131,6 +149,7 @@ export default function ChartCard({
                 stroke: "transparent",
                 strokeWidth: 0,
               }}
+              
             />
           </LineChart>
         </ResponsiveContainer>
