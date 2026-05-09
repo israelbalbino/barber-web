@@ -21,6 +21,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { FaBell } from "react-icons/fa";
 import { api } from "@/services/apiClient";
 import { io } from "socket.io-client";
+import ChartCard from "./grafico";
 
 interface ServiceProps {
   totalModelos: number;
@@ -28,6 +29,7 @@ interface ServiceProps {
   ValorService: number;
   servicosRealizados: ServicesProps[];
   notifications: number;
+  data: ChartData[];
 }
 
 export interface ServicesProps {
@@ -40,12 +42,18 @@ export interface ServicesProps {
   };
 }
 
+interface ChartData {
+  name: string;
+  Total: number;
+}
+
 export default function Barbeiro({
   totalModelos,
   totalServicos,
   ValorService,
   servicosRealizados,
-  notifications
+  notifications,
+  data
 }: ServiceProps) {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const { user } = useContext(AuthContext);
@@ -127,6 +135,8 @@ const [listService] = useState(servicosRealizados);
             </ChakraLink>
           </Box>
 
+         
+
            {/* FATURAMENTO */}
         <Flex
           p={6}
@@ -154,6 +164,8 @@ const [listService] = useState(servicosRealizados);
             <FiTrendingUp size={22} />
           </Box>
         </Flex>
+
+      
 
         {/* STATS */}
         <Flex gap={4} direction={isMobile ? "row" : "row"}>
@@ -196,6 +208,8 @@ const [listService] = useState(servicosRealizados);
             
           </Flex>
         </Flex>
+
+        <ChartCard data={data}/>
 
         {/* LISTA */}
         <Flex
@@ -275,6 +289,10 @@ const [listService] = useState(servicosRealizados);
       });
 
       const notification = await apiClient.get("/notification/count")
+
+      const resp = await apiClient.get(
+        "/dashboard/grafico-dados"
+      );
       
   
       return {
@@ -283,7 +301,8 @@ const [listService] = useState(servicosRealizados);
           totalServicos: serv.data,
           ValorService: totalServicos.data,
           servicosRealizados: servicosRealizados.data,
-          notifications:notification.data
+          notifications:notification.data,
+          data:resp.data
          
         },
       };
