@@ -1,758 +1,697 @@
-import { Box, Container, Heading, Text, Button, Stack, SimpleGrid, Icon, Link,Flex, Avatar } from '@chakra-ui/react'
-import theme from '@/theme'
-import { FiMenu } from 'react-icons/fi'
-import { keyframes } from "@emotion/react";
-import Image from 'next/image';
-import fundo from '../../public/images/fundo.jpeg'
-import fund from '../../public/images/fund.jpeg'
-import Router  from 'next/router';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Button,
+  Stack,
+  SimpleGrid,
+  Link,
+  Flex,
+  Avatar,
+} from "@chakra-ui/react";
 
+import { keyframes } from "@emotion/react";
+import Image from "next/image";
+import Router from "next/router";
+
+import fundo from "../../public/images/fundo.jpeg";
+import fund from "../../public/images/fund.jpeg";
+import { FaWhatsapp } from "react-icons/fa";
 
 const shine = keyframes`
   0% { transform: translateX(-100%) skewX(-20deg); }
   100% { transform: translateX(200%) skewX(-20deg); }
 `;
 
-
-
 export default function LandingPage() {
-
-
-  function handlePlanos(){
-
-   const route = Router.push('/login')
-
+  function handlePlanos() {
+    Router.push("/login");
   }
 
-
   return (
-    <Box bg="barber.700" color="white" minH="100vh">
-      {/* Navbar - Componente fixo com blur */}
-      <Flex bg="#000" as="nav" position="fixed" w="100%" zIndex={50} backdropFilter="blur(10px)" py={4}>
-        <Flex ml={4} mr={4} w="100%"  display="flex" justifyContent="space-between" flexDirection="row" alignItems="center">
-          <Link textDecoration="none" _hover={{textDecoration:"none"}} href="/" display="flex">
-            <Heading fontSize={20} color="#FFF">AraBarber</Heading>
-          <Heading color="brand.gold" size="md">PRO</Heading>
+    <Box bg="#050505" color="white" minH="100vh">
+      {/* NAVBAR */}
+      <Flex
+        as="nav"
+        position="fixed"
+        top={0}
+        w="100%"
+        zIndex={100}
+        bg="rgba(0,0,0,0.7)"
+        backdropFilter="blur(20px)"
+        borderBottom="1px solid rgba(255,255,255,0.05)"
+        py={4}
+      >
+        <Flex
+          px={6}
+          w="100%"
+          justify="space-between"
+          align="center"
+          maxW="7xl"
+          mx="auto"
+        >
+          <Link
+            href="/"
+            _hover={{ textDecoration: "none" }}
+            display="flex"
+            alignItems="center"
+          >
+            <Heading
+              color="white"
+              fontSize="26px"
+              fontWeight="black"
+              letterSpacing="tight"
+            >
+              AraBarber
+            </Heading>
+
+            <Heading
+              color="brand.gold"
+              fontSize="26px"
+              fontWeight="black"
+            >
+              PRO
+            </Heading>
           </Link>
-         <Flex>
-         <Link  borderBottom="1px solid #000" href='/login' rounded={5} textDecoration="none" _hover={{textDecoration:"none"}} display="flex" justifyContent="center" alignItems="center" w={100} h={30} variant="outline" bg="brand.gold" color="#000">Entrar</Link>
-         </Flex>
+
         </Flex>
       </Flex>
 
-      {/* Hero Section */}
+      {/* HERO */}
       <Box
-       bg="rgba(0, 0, 0, 0.6)" // Overlay preto com 50% opacidade
-       bgBlendMode="darken" // Mescla o fundo com a imagem
-       bgSize="cover"
-       p={4}
-      color="white"
-      bgImage={`url("/images/planodefundo.png")`}  pt={32} textAlign="center">
+        position="relative"
+        overflow="hidden"
+        bg="radial-gradient(circle at top, rgba(212,175,55,0.18), #050505 60%)"
+        pt={{ base: 36, md: 44 }}
+        pb={{ base: 20, md: 32 }}
+      >
+        <Box
+          position="absolute"
+          inset={0}
+          bg="rgba(0,0,0,0.65)"
+          zIndex={1}
+        />
 
-        <Container>
+        <Box
+          position="absolute"
+          top="-120px"
+          left="50%"
+          transform="translateX(-50%)"
+          w="500px"
+          h="500px"
+          bg="rgba(212,175,55,0.15)"
+          filter="blur(140px)"
+          borderRadius="full"
+          zIndex={1}
+        />
 
-          <Text border="1px solid" rounded={10} color="brand.gold"  letterSpacing="widest" mb={4}>
-            A EXCELÊNCIA EM GESTÃO
-          </Text>
+        <Container
+          maxW="7xl"
+          position="relative"
+          zIndex={2}
+        >
+          <SimpleGrid
+            columns={{ base: 1, md: 2 }}
+            spacing={16}
+            alignItems="center"
+          >
+            {/* TEXTO */}
+            <Box>
+              <Text
+                color="brand.gold"
+                fontWeight="bold"
+                letterSpacing="widest"
+                mb={4}
+                fontSize="sm"
+              >
+                A NOVA ERA DAS BARBEARIAS
+              </Text>
 
-          <Heading fontStyle="italic" fontSize={60} mb={6}>Domine sua Barbearia com o </Heading>
-          <Heading fontStyle="italic"  mb={4} fontSize={40} color="brand.gold">AraBarberPRO</Heading>
+              <Heading
+                color="white"
+                lineHeight="0.95"
+                fontSize={{ base: "48px", md: "78px" }}
+                mb={6}
+                fontWeight="black"
+                letterSpacing="tight"
+              >
+                Sua Barbearia
+                <Text as="span" color="brand.gold">
+                  {" "}
+                  lotada{" "}
+                </Text>
+                e organizada todos os dias.
+              </Heading>
 
-          <Text fontSize="xl" opacity={0.8} mb={8}>
+              <Text
+                color="gray.300"
+                fontSize={{ base: "lg", md: "2xl" }}
+                maxW="700px"
+                mb={8}
+              >
+                Controle filas em tempo real, impressione clientes
+                e transforme sua barbearia em uma experiência premium.
+              </Text>
 
-            Gestão completa para o barbeiro moderno. Transforme seu atelier em uma máquina de precisão.
-          </Text>
+              <Flex gap={4} wrap="wrap">
+             
 
-          <Button onClick={handlePlanos} bg="brand.gold" size="lg" px={10}>Começar Agora</Button>
+<Button
+  as="a"
+  href="https://wa.me/5582999106277?text=Ol%C3%A1%20AraBarberPRO,%20quero%20mais%20informa%C3%A7%C3%B5es!"
+  target="_blank"
+  rel="noopener noreferrer"
+  leftIcon={<FaWhatsapp size={24} />}
+  size="lg"
+  h="72px"
+  px={10}
+  rounded="2xl"
+  bg="#25D366"
+  color="white"
+  fontWeight="black"
+  fontSize="18px"
+  boxShadow="0 0 30px rgba(37,211,102,0.5)"
+  transition="0.3s"
+  _hover={{
+    transform: "translateY(-4px) scale(1.03)",
+    boxShadow: "0 0 50px rgba(37,211,102,0.8)",
+    bg: "#1ebe5d",
+  }}
+>
+  CHAMAR NO WHATSAPP
+</Button>
 
+                <Button
+                  size="lg"
+                  h="72px"
+                  px={10}
+                  rounded="2xl"
+                  bg="whiteAlpha.100"
+                  border="1px solid rgba(255,255,255,0.1)"
+                  color="white"
+                  _hover={{
+                    bg: "whiteAlpha.200",
+                  }}
+                >
+                  VER DEMONSTRAÇÃO
+                </Button>
+              </Flex>
+
+              <Flex mt={8} align="center" gap={4} wrap="wrap">
+                <Text color="gray.400">
+                  +120 barbeiros usando
+                </Text>
+
+                <Text color="brand.gold">
+                  ★★★★★
+                </Text>
+
+                <Text color="gray.400">
+                  4.9 de avaliação
+                </Text>
+              </Flex>
+            </Box>
+
+            {/* MOCKUP */}
+            <Flex justify="center" position="relative">
+              <Box
+                position="absolute"
+                w="350px"
+                h="350px"
+                bg="rgba(212,175,55,0.2)"
+                filter="blur(120px)"
+                borderRadius="full"
+              />
+
+              <Box
+                position="relative"
+                borderRadius="40px"
+                p="8px"
+                bg="linear-gradient(145deg, #2a2a2a, #080808)"
+                boxShadow="0 40px 100px rgba(0,0,0,0.9)"
+              >
+            
+
+                <Box
+                  bg="#000"
+                  borderRadius="34px"
+                  overflow="hidden"
+                  w={{ base: "300px", md: "360px" }}
+                  h={{ base: "600px", md: "720px" }}
+                  position="relative"
+                >
+                  <Image
+                    src={fundo}
+                    alt="AraBarberPRO"
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+
+                
+                </Box>
+              </Box>
+            </Flex>
+          </SimpleGrid>
         </Container>
       </Box>
 
-     {/* Web App Feature Section */}
-     <Box
-     id='recursos'
-      py={24}
-      position="relative"
-      bgGradient="linear(to-br, #0b0b0b, #1a1a1a)"
-      overflow="hidden"
-    >
-      {/* Glow dourado */}
-      <Box
-        position="absolute"
-        top="-120px"
-        left="-120px"
-        w="350px"
-        h="350px"
-        bg="rgba(251,169,49,0.15)"
-        filter="blur(120px)"
-        borderRadius="full"
-      />
-
-      {/* Textura */}
-      <Box
-        position="absolute"
-        inset={0}
-        opacity={0.05}
-        bgImage="url('https://www.transparenttextures.com/patterns/asfalt-dark.png')"
-      />
-
-      <Container  maxW="6xl" position="relative">
-        <SimpleGrid
-          columns={{ base: 1, md: 2 }}
-          spacing={16}
-          alignItems="center"
-        >
-          {/* TEXTO */}
-          <Box position="relative" overflow="hidden">
-            {/* Efeito de luz passando */}
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              w="50%"
-              h="100%"
-              bg="linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent)"
-              animation={`${shine} 4s infinite`}
-            />
-
-            <Box w="60px" h="3px" bg="brand.gold" mb={4} borderRadius="full" />
-
-            <Text
-              color="brand.gold"
-              mb={2}
-              fontWeight="bold"
-              letterSpacing="wide"
-            >
-              EXPERIÊNCIA MOBILE PREMIUM
-            </Text>
-
-            <Heading mb={4} color="white" fontSize="3xl">
-              Web App Exclusivo
-            </Heading>
-
-            <Text mb={6} color="gray.300">
-              Sem downloads. Você faz tudo de forma rápida e prática.
-            </Text>
-
-          </Box>
-
-          {/* MOCKUP CELULAR */}
-          <Box position="relative" display="flex" justifyContent="center">
-            {/* Glow atrás do celular */}
-            <Box
-              position="absolute"
-              w="250px"
-              h="250px"
-              bg="rgba(251,169,49,0.2)"
-              filter="blur(100px)"
-              borderRadius="full"
-            />
-
-            {/* Celular */}
-            <Box
-              borderRadius="30px"
-              p="6px"
-              bg="linear-gradient(145deg, #2a2a2a, #0d0d0d)"
-              boxShadow="0 20px 60px rgba(0,0,0,0.8)"
-            >
-              <Box
-                bg="#000"
-                borderRadius="25px"
-                overflow="hidden"
-                w="260px"
-                h="520px"
-              >
-                <Image
-                   // 🔥 coloque print do seu sistema aqui
-                  src={fundo}
-                  alt="App Preview"
-                  objectFit="cover"
-                />
-              </Box>
-            </Box>
-          </Box>
-        </SimpleGrid>
-      </Container>
-
-      
-    </Box>
-
-    <Box>
-
-      {/* Web App Feature Section */}
-     <Box
-     id='recursos'
-      py={24}
-      position="relative"
-      bgGradient="linear(to-br, #0b0b0b, #1a1a1a)"
-      overflow="hidden"
-    >
-      {/* Glow dourado */}
-      <Box
-        position="absolute"
-        top="-120px"
-        left="-120px"
-        w="350px"
-        h="350px"
-        bg="rgba(251,169,49,0.15)"
-        filter="blur(120px)"
-        borderRadius="full"
-      />
-
-      {/* Textura */}
-      <Box
-        position="absolute"
-        inset={0}
-        opacity={0.05}
-        bgImage="url('https://www.transparenttextures.com/patterns/asfalt-dark.png')"
-      />
-
-      <Container  maxW="6xl" position="relative">
-        <SimpleGrid
-          columns={{ base: 1, md: 2 }}
-          spacing={16}
-          alignItems="center"
-        >
-          {/* TEXTO */}
-          <Box position="relative" overflow="hidden">
-            {/* Efeito de luz passando */}
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              w="50%"
-              h="100%"
-              bg="linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent)"
-              animation={`${shine} 4s infinite`}
-            />
-
-            <Box w="60px" h="3px" bg="brand.gold" mb={4} borderRadius="full" />
-
-            <Text
-              color="brand.gold"
-              mb={2}
-              fontWeight="bold"
-              letterSpacing="wide"
-            >
-              Chega de filas
-            </Text>
-
-            <Heading mb={4} color="white" fontSize="3xl">
-              Web App clientes
-            </Heading>
-
-            <Text mb={6} color="gray.300">
-              Propocione ao seu cliente um aplicativo para que ele tenha acesso a fila da sua barbearia.
-            </Text>
-
-          </Box>
-
-          {/* MOCKUP CELULAR */}
-          <Box position="relative" display="flex" justifyContent="center">
-            {/* Glow atrás do celular */}
-            <Box
-              position="absolute"
-              w="250px"
-              h="250px"
-              bg="rgba(251,169,49,0.2)"
-              filter="blur(100px)"
-              borderRadius="full"
-            />
-
-            {/* Celular */}
-            <Box
-              borderRadius="30px"
-              p="6px"
-              bg="linear-gradient(145deg, #2a2a2a, #0d0d0d)"
-              boxShadow="0 20px 60px rgba(0,0,0,0.8)"
-            >
-              <Box
-                bg="#000"
-                borderRadius="25px"
-                overflow="hidden"
-                w="260px"
-                h="520px"
-              >
-                <Image
-                   // 🔥 coloque print do seu sistema aqui
-                  src={fund}
-                  alt="App Preview"
-                  objectFit="cover"
-                />
-              </Box>
-            </Box>
-          </Box>
-        </SimpleGrid>
-      </Container>
-
-      
-    </Box>
-    
-    </Box>
-
-    <Box
-  py={24}
-  position="relative"
-  bgGradient="linear(to-br, #050505, #111)"
-  overflow="hidden"
->
-  {/* GLOW PREMIUM */}
-  <Box
-    position="absolute"
-    top="-120px"
-    right="-120px"
-    w="350px"
-    h="350px"
-    bg="rgba(212,175,55,0.15)"
-    filter="blur(120px)"
-    borderRadius="full"
-  />
-
-  <Container maxW="6xl" position="relative">
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={16} alignItems="center">
-
-      {/* LADO ESQUERDO - TEXTO */}
-      <Box>
-        <Text color="brand.gold" fontWeight="bold" mb={2}>
-          EXCLUSIVO AraBarberPRO
-        </Text>
-
-        <Heading color="white" fontSize="4xl" mb={4}>
-          AraButtonPRO
-        </Heading>
-
-          {/* CARD DO PRODUTO */}
-          <Box
-          borderRadius="30px"
-          w="100%"
-          bg="linear-gradient(145deg, #2a2a2a, #0d0d0d)"
-          boxShadow="0 25px 80px rgba(0,0,0,0.9)"
-        >
-          <Box
-            borderRadius="25px"
-            overflow="hidden"
-            w="100%"
-            h="380px"
-            position="relative"
+      {/* DOR */}
+      <Box py={24} bg="#050505">
+        <Container maxW="6xl">
+          <Text
+            textAlign="center"
+            color="brand.gold"
+            fontWeight="bold"
+            mb={3}
           >
-            <Image
-              src="/images/arabutton.jpeg"
-              alt="AraButtonPRO"
-              fill
-              style={{ objectFit: "cover" }}
-            />
+            SUA BARBEARIA SOFRE COM ISSO?
+          </Text>
 
-            {/* OVERLAY GRADIENT */}
-            <Box
-              position="absolute"
-              inset={0}
-              bgGradient="linear(to-t, rgba(0,0,0,0.7), transparent)"
-            />
+          <Heading
+            textAlign="center"
+            color="white"
+            mb={14}
+            fontSize={{ base: "3xl", md: "5xl" }}
+            fontWeight="black"
+          >
+            Chega de perder clientes.
+          </Heading>
 
-           
-          </Box>
-        </Box>
+          <SimpleGrid
+            columns={{ base: 1, md: 2 }}
+            spacing={8}
+          >
+            {[
+              "Clientes indo embora pela demora",
+              "Fila bagunçada todos os dias",
+              "Clientes perguntando quanto tempo falta",
+              "Falta de controle financeiro",
+              "Barbearia sem experiência premium",
+              "Atendimento desorganizado",
+            ].map((item) => (
+              <Flex
+                key={item}
+                align="center"
+                p={6}
+                rounded="2xl"
+                bg="rgba(255,255,255,0.03)"
+                border="1px solid rgba(255,255,255,0.08)"
+              >
+                <Text
+                  color="red.400"
+                  fontWeight="bold"
+                  mr={4}
+                  fontSize="2xl"
+                >
+                  ✕
+                </Text>
 
-        <Text mt={10} color="gray.300" mb={6} fontSize="lg">
-          Um botão físico inteligente que transforma sua barbearia em uma experiência moderna.
-          Com apenas um toque, você organiza sua fila automaticamente e impressiona seus clientes.
-        </Text>
-
-        <Stack spacing={4} mb={8}>
-          <Text color="gray.300">✔ Atendimento mais rápido e organizado</Text>
-          <Text color="gray.300">✔ Clientes acompanham a fila em tempo real</Text>
-          <Text color="gray.300">✔ Experiência premium dentro da barbearia</Text>
-          <Text color="gray.300">✔ Integração total com o sistema</Text>
-        </Stack>
-
-       
+                <Text color="gray.300">
+                  {item}
+                </Text>
+              </Flex>
+            ))}
+          </SimpleGrid>
+        </Container>
       </Box>
 
-     
-    </SimpleGrid>
-  </Container>
-</Box>
-
-
-    
-
-    <Box
-      py={24}
-      position="relative"
-      bgGradient="linear(to-b, #050505, #111)"
-      overflow="hidden"
-    >
-      {/* Glow fundo */}
+      {/* FEATURES */}
       <Box
-        position="absolute"
-        top="-100px"
-        left="-100px"
-        w="300px"
-        h="300px"
-        bg="rgba(251,169,49,0.15)"
-        filter="blur(120px)"
-        borderRadius="full"
-      />
+        id="recursos"
+        py={24}
+        position="relative"
+        bgGradient="linear(to-br, #0b0b0b, #1a1a1a)"
+        overflow="hidden"
+      >
+        <Box
+          position="absolute"
+          top="-120px"
+          left="-120px"
+          w="350px"
+          h="350px"
+          bg="rgba(251,169,49,0.15)"
+          filter="blur(120px)"
+          borderRadius="full"
+        />
 
-      <Container id='depoimentos' maxW="6xl" position="relative">
-        <Heading
-          textAlign="center"
-          color="white"
-          mb={16}
-          fontSize={{ base: "2xl", md: "4xl" }}
-        >
-          Quem usa AraBarberPRO
-        </Heading>
-
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-          
-          {/* CARD 1 */}
-          <Box
-            
-            p={6}
-            borderRadius="2xl"
-            bg="rgba(255,255,255,0.03)"
-            backdropFilter="blur(10px)"
-            border="1px solid rgba(255,255,255,0.08)"
-            transition="0.3s"
-            _hover={{
-              transform: "translateY(-8px)",
-              boxShadow: "0 20px 40px rgba(0,0,0,0.6)"
-            }}
+        <Container maxW="6xl" position="relative">
+          <SimpleGrid
+            columns={{ base: 1, md: 2 }}
+            spacing={16}
+            alignItems="center"
           >
-            <Text color="brand.gold" mb={3}>★★★★★</Text>
+            <Box position="relative" overflow="hidden">
+              <Box
+                position="absolute"
+                top={0}
+                left={0}
+                w="50%"
+                h="100%"
+                bg="linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent)"
+                animation={`${shine} 4s infinite`}
+              />
 
-            <Text color="gray.300" mb={6}>
-              “Depois que comecei a usar o sistema, minha barbearia ficou muito mais organizada. A fila em tempo real impressiona os clientes.”
-            </Text>
-
-            <Flex align="center">
-              <Avatar name="Carlos Silva" mr={3} />
-              <Box>
-                <Text color="white" fontWeight="bold">Carlos Silva</Text>
-                <Text fontSize="sm" color="gray.400">Barbeiro</Text>
-              </Box>
-            </Flex>
-          </Box>
-
-          {/* CARD 2 */}
-          <Box
-            p={6}
-            borderRadius="2xl"
-            bg="rgba(255,255,255,0.03)"
-            backdropFilter="blur(10px)"
-            border="1px solid rgba(255,255,255,0.08)"
-            transition="0.3s"
-            _hover={{
-              transform: "translateY(-8px)",
-              boxShadow: "0 20px 40px rgba(0,0,0,0.6)"
-            }}
-          >
-            <Text color="brand.gold" mb={3}>★★★★★</Text>
-
-            <Text color="gray.300" mb={6}>
-              “O Web App é surreal. Meus clientes adoram acompanhar a fila sem precisar ficar perguntando.”
-            </Text>
-
-            <Flex align="center">
-              <Avatar name="Rafael Santos" mr={3} />
-              <Box>
-                <Text color="white" fontWeight="bold">Rafael Santos</Text>
-                <Text fontSize="sm" color="gray.400">Dono de Barbearia</Text>
-              </Box>
-            </Flex>
-          </Box>
-
-          {/* CARD 3 */}
-          <Box
-            p={6}
-            borderRadius="2xl"
-            bg="linear-gradient(145deg, #1a1a1a, #0a0a0a)"
-            border="1px solid rgba(212,175,55,0.4)"
-            position="relative"
-            transition="0.3s"
-            _hover={{
-              transform: "translateY(-10px)",
-              boxShadow: "0 25px 60px rgba(0,0,0,0.8)"
-            }}
-          >
-            {/* Glow interno */}
-            <Box
-              position="absolute"
-              inset={0}
-              borderRadius="2xl"
-              bg="rgba(212,175,55,0.08)"
-              filter="blur(40px)"
-            />
-
-            <Text color="brand.gold" mb={3}>★★★★★</Text>
-
-            <Text color="gray.200" mb={6}>
-              “Aumentei meu faturamento porque consigo atender melhor e organizar o fluxo. Vale cada centavo.”
-            </Text>
-
-            <Flex align="center">
-              <Avatar name="Lucas Oliveira" mr={3} />
-              <Box>
-                <Text color="white" fontWeight="bold">Lucas Oliveira</Text>
-                <Text fontSize="sm" color="gray.400">Empresário</Text>
-              </Box>
-            </Flex>
-          </Box>
-
-        </SimpleGrid>
-      </Container>
-    </Box>
-    
-    <Box
-      id="planos"
-      py={24}
-      position="relative"
-      bgGradient="linear(to-b, #050505, #111)"
-      overflow="hidden"
-    >
-      {/* Glow fundo */}
-      <Box
-        position="absolute"
-        bottom="-120px"
-        right="-120px"
-        w="350px"
-        h="350px"
-        bg="rgba(251,169,49,0.15)"
-        filter="blur(120px)"
-        borderRadius="full"
-      />
-
-      <Container   maxW="6xl" position="relative">
-        <Heading
-          mt={4}
-          color="white"
-          textAlign="center"
-          mb={16}
-          fontSize={{ base: "2xl", md: "4xl" }}
-        >
-          Planos para cada fase do seu sucesso
-        </Heading>
-
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-          {/* BASIC */}
-          <Box
-            p={8}
-            borderRadius="2xl"
-            bg="rgba(255,255,255,0.03)"
-            backdropFilter="blur(10px)"
-            border="1px solid rgba(255,255,255,0.08)"
-            transition="0.3s"
-            _hover={{
-              transform: "translateY(-8px)",
-              boxShadow: "0 20px 40px rgba(0,0,0,0.6)"
-            }}
-          >
-            <Text color="gray.400" mb={2}>
-              Para começar
-            </Text>
-
-            <Heading color="white" size="md">
-              Plano Basic
-            </Heading>
-
-            <Text fontSize="4xl" fontWeight="bold" my={6} color="white">
-              R$ 0{" "}
-              <Text as="span" fontSize="sm" color="gray.400">
-                /mês
+              <Text
+                color="brand.gold"
+                mb={2}
+                fontWeight="bold"
+                letterSpacing="wide"
+              >
+                EXPERIÊNCIA MOBILE PREMIUM
               </Text>
-            </Text>
 
-            <Stack spacing={4} color="gray.300">
-              <Text>✓ Dashboard personalizado</Text>
-              <Text>✓ 3 Modelos de cortes</Text>
-              <Text>✓ Cadastro de serviços</Text>
-              <Text>✓ webApp clientes</Text>
-            </Stack>
+              <Heading
+                mb={4}
+                color="white"
+                fontSize="4xl"
+                fontWeight="black"
+              >
+                Web App Exclusivo
+              </Heading>
 
-            <Button
-            onClick={handlePlanos}
-              mt={8}
-              w="100%"
-              variant="outline"
-              borderColor="gray.600"
-              color="white"
-              _hover={{
-                bg: "whiteAlpha.100"
-              }}
-            >
-              Começar grátis
-            </Button>
-          </Box>
-
-          {/* PRO */}
-          <Box
-            p={10}
-            borderRadius="2xl"
-            position="relative"
-            bg="linear-gradient(145deg, #1a1a1a, #0a0a0a)"
-            border="1px solid rgba(212,175,55,0.4)"
-            transform={{ md: "scale(1.05)" }}
-            boxShadow="0 20px 60px rgba(0,0,0,0.8)"
-          >
-            {/* Badge */}
-            <Box
-              position="absolute"
-              top="-12px"
-              left="50%"
-              transform="translateX(-50%)"
-              bg="brand.gold"
-              color="black"
-              px={4}
-              py={1}
-              borderRadius="full"
-              fontSize="xs"
-              fontWeight="bold"
-              boxShadow="0 0 20px rgba(212,175,55,0.6)"
-            >
-              MAIS POPULAR
+              <Text mb={6} color="gray.300" fontSize="lg">
+                Sem downloads. Seu cliente acompanha tudo em tempo real.
+              </Text>
             </Box>
 
-            {/* Glow interno */}
-            <Box
-              position="absolute"
-              inset={0}
-              borderRadius="2xl"
-              bg="rgba(212,175,55,0.08)"
-              filter="blur(40px)"
-            />
+            <Flex justify="center">
+              <Box
+                borderRadius="30px"
+                p="6px"
+                bg="linear-gradient(145deg, #2a2a2a, #0d0d0d)"
+                boxShadow="0 20px 60px rgba(0,0,0,0.8)"
+              >
+                <Box
+                  bg="#000"
+                  borderRadius="25px"
+                  overflow="hidden"
+                  w="260px"
+                  h="520px"
+                  position="relative"
+                >
+                  <Image
+                    src={fund}
+                    alt="App Preview"
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </Box>
+              </Box>
+            </Flex>
+          </SimpleGrid>
+        </Container>
+      </Box>
 
-            <Text color="brand.gold" mb={2}>
-              Para quem quer crescer
-            </Text>
-
-            <Heading color="white" size="md">
-              Plano PRO
-            </Heading>
-
-            <Text fontSize="4xl" fontWeight="bold" my={6} color="white">
-              R$ 99,90{" "}
-              <Text as="span" fontSize="sm" color="gray.400">
-                /mês
-              </Text>
-            </Text>
-
-            <Stack spacing={4} color="gray.200">
-              <Text>✓ Tudo do Basic</Text>
-              <Text>✓ Relatórios completos</Text>
-              <Text>✓ Web App para clientes</Text>
-              <Text>✓ Botão elétronico</Text>
-              <Text>✓ Fila em tempo real</Text>
-            </Stack>
-
-            <Button
-            onClick={handlePlanos}
-              mt={8}
-              w="100%"
-              bg="brand.gold"
-              color="black"
-              size="lg"
-              _hover={{
-                bg: "#ffbe55",
-                transform: "translateY(-2px)",
-                boxShadow: "0 0 25px rgba(212,175,55,0.6)"
-              }}
-            >
-              Escolher PRO
-            </Button>
-          </Box>
-        </SimpleGrid>
-      </Container>
-    </Box>
-
-    <Box
-      bg="#050505"
-      color="gray.400"
-      pt={20}
-      pb={10}
-      position="relative"
-      overflow="hidden"
-    >
-      {/* Glow topo */}
-
-     
-
+      {/* PLANOS */}
       <Box
-        position="absolute"
-        top="0"
-        left="50%"
-        transform="translateX(-50%)"
-        w="80%"
-        h="1px"
-        bg="linear-gradient(90deg, transparent, #D4AF37, transparent)"
-      />
+        id="planos"
+        py={24}
+        bgGradient="linear(to-b, #050505, #111)"
+      >
+        <Container maxW="6xl">
+          <Heading
+            color="white"
+            textAlign="center"
+            mb={16}
+            fontSize={{ base: "3xl", md: "5xl" }}
+            fontWeight="black"
+          >
+            Planos para crescer
+          </Heading>
 
-      
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+            {/* BASIC */}
+            <Box
+              p={8}
+              borderRadius="2xl"
+              bg="rgba(255,255,255,0.03)"
+              border="1px solid rgba(255,255,255,0.08)"
+            >
+              <Text color="gray.400" mb={2}>
+                Para começar
+              </Text>
 
-      <Container maxW="6xl">
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing={10}>
-      
-          {/* LOGO + DESCRIÇÃO */}
-          <Stack spacing={4}>
+              <Heading color="white" size="md">
+                Plano Basic
+              </Heading>
+
+              <Text
+                fontSize="5xl"
+                fontWeight="black"
+                my={6}
+                color="white"
+              >
+                R$ 0
+              </Text>
+
+              <Stack spacing={4} color="gray.300">
+                <Text>✓ Dashboard personalizado</Text>
+                <Text>✓ Cadastro de serviços</Text>
+                <Text>✓ Web App clientes</Text>
+              </Stack>
+
+              <Button
+                as="a"
+                href="https://wa.me/5582999106277?text=Ol%C3%A1%20AraBarberPRO,%20quero%20mais%20informa%C3%A7%C3%B5es!"
+                target="_blank"
+                rel="noopener noreferrer"
+                mt={8}
+                w="100%"
+                variant="outline"
+                borderColor="gray.600"
+                color="white"
+              >
+                Começar grátis
+              </Button>
+            </Box>
+
+            {/* PRO */}
+            <Box
+              p={10}
+              borderRadius="2xl"
+              position="relative"
+              bg="linear-gradient(145deg, #1a1a1a, #0a0a0a)"
+              border="1px solid rgba(212,175,55,0.4)"
+              boxShadow="0 20px 60px rgba(0,0,0,0.8)"
+            >
+              <Box
+                position="absolute"
+                top="-12px"
+                left="50%"
+                transform="translateX(-50%)"
+                bg="brand.gold"
+                color="black"
+                px={4}
+                py={1}
+                borderRadius="full"
+                fontSize="xs"
+                fontWeight="bold"
+              >
+                MAIS POPULAR
+              </Box>
+
+              <Text color="brand.gold" mb={2}>
+                Para quem quer crescer
+              </Text>
+
+              <Heading color="white" size="md">
+                Plano PRO
+              </Heading>
+
+              <Flex align="end" gap={2} my={6}>
+                <Heading
+                  color="white"
+                  fontSize="6xl"
+                  fontWeight="black"
+                >
+                  7
+                </Heading>
+
+                <Text
+                  color="brand.gold"
+                  fontSize="2xl"
+                  fontWeight="bold"
+                  mb={3}
+                >
+                  dias grátis
+                </Text>
+              </Flex>
+
+              <Text color="gray.400" mb={8}>
+                Depois apenas R$ 49,90/mês
+              </Text>
+
+              <Stack spacing={4} color="gray.200">
+                <Text>✓ Tudo do Basic</Text>
+                <Text>✓ Relatórios completos</Text>
+                <Text>✓ Web App clientes</Text>
+                <Text>✓ Fila em tempo real</Text>
+                <Text>✓ AraButtonPRO</Text>
+              </Stack>
+
+              <Button
+                as="a"
+                href="https://wa.me/5582999106277?text=Ol%C3%A1%20AraBarberPRO,%20quero%20mais%20informa%C3%A7%C3%B5es!"
+                target="_blank"
+                rel="noopener noreferrer"
+                mt={8}
+                w="100%"
+                bg="brand.gold"
+                color="black"
+                size="lg"
+                rounded="xl"
+                fontWeight="black"
+                _hover={{
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 0 25px rgba(212,175,55,0.6)",
+                }}
+              >
+                COMEÇAR AGORA
+              </Button>
+            </Box>
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* DEPOIMENTOS */}
+      <Box py={24} bg="#050505">
+        <Container maxW="6xl">
+          <Heading
+            textAlign="center"
+            color="white"
+            mb={16}
+            fontSize={{ base: "3xl", md: "5xl" }}
+            fontWeight="black"
+          >
+            Quem usa AraBarberPRO
+          </Heading>
+
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            {[
+              {
+                name: "Carlos Silva",
+                role: "Barbeiro",
+                text: "Minha barbearia ficou muito mais organizada.",
+              },
+              {
+                name: "Rafael Santos",
+                role: "Empresário",
+                text: "Os clientes adoram acompanhar a fila.",
+              },
+              {
+                name: "Lucas Oliveira",
+                role: "Empresário",
+                text: "Aumentei meu faturamento e organização.",
+              },
+            ].map((item) => (
+              <Box
+                key={item.name}
+                p={6}
+                rounded="2xl"
+                bg="rgba(255,255,255,0.03)"
+                border="1px solid rgba(255,255,255,0.08)"
+              >
+                <Text color="brand.gold" mb={3}>
+                  ★★★★★
+                </Text>
+
+                <Text color="gray.300" mb={6}>
+                  {item.text}
+                </Text>
+
+                <Flex align="center">
+                  <Avatar name={item.name} mr={3} />
+
+                  <Box>
+                    <Text color="white" fontWeight="bold">
+                      {item.name}
+                    </Text>
+
+                    <Text fontSize="sm" color="gray.400">
+                      {item.role}
+                    </Text>
+                  </Box>
+                </Flex>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* CTA FINAL */}
+      <Box
+        py={24}
+        bg="radial-gradient(circle at center, rgba(212,175,55,0.15), #050505 60%)"
+        textAlign="center"
+      >
+        <Container maxW="5xl">
+          <Heading
+            color="white"
+            fontSize={{ base: "3xl", md: "6xl" }}
+            mb={6}
+            lineHeight="1"
+            fontWeight="black"
+          >
+            Sua barbearia nunca mais será a mesma.
+          </Heading>
+
+          <Text
+            color="gray.300"
+            fontSize={{ base: "lg", md: "2xl" }}
+            mb={10}
+          >
+            Entre agora para o AraBarberPRO e transforme sua experiência.
+          </Text>
+
+          <Button
+            onClick={handlePlanos}
+            h="80px"
+            px={16}
+            rounded="2xl"
+            bg="brand.gold"
+            color="black"
+            fontSize="22px"
+            fontWeight="black"
+            boxShadow="0 0 60px rgba(212,175,55,0.5)"
+            _hover={{
+              transform: "translateY(-4px) scale(1.04)",
+              boxShadow: "0 0 80px rgba(212,175,55,0.8)",
+            }}
+          >
+            COMEÇAR AGORA
+          </Button>
+        </Container>
+      </Box>
+
+      {/* FOOTER */}
+      <Box
+        bg="#050505"
+        color="gray.400"
+        pt={20}
+        pb={10}
+        borderTop="1px solid rgba(255,255,255,0.05)"
+      >
+        <Container maxW="6xl">
+          <Flex
+            justify="space-between"
+            align="center"
+            direction={{ base: "column", md: "row" }}
+            gap={6}
+          >
             <Heading size="md" color="white">
-              AraBarber<span style={{ color: "#D4AF37" }}>PRO</span>
+              AraBarber
+              <Text as="span" color="brand.gold">
+                PRO
+              </Text>
             </Heading>
 
             <Text fontSize="sm">
-              Sistema completo para barbearias que querem crescer, organizar e faturar mais.
+              © {new Date().getFullYear()} AraBarberPRO. Todos os direitos reservados.
             </Text>
-          </Stack>
-
-          {/* LINKS */}
-          <Stack>
-            <Text color="white" fontWeight="bold">Produto</Text>
-            <Link href='#recursos' _hover={{ color: "brand.gold" }}>Recursos</Link>
-            <Link href='#planos' _hover={{ color: "brand.gold" }}>Planos</Link>
-            <Link href='#depoimentos' _hover={{ color: "brand.gold" }}>Depoimentos</Link>
-          </Stack>
-
-          {/* SUPORTE */}
-          <Stack>
-            <Text color="white" fontWeight="bold">Suporte</Text>
-            <Link _hover={{ color: "brand.gold" }}>Ajuda</Link>
-            <Link _hover={{ color: "brand.gold" }}>Contato</Link>
-            <Link href='/termos' _hover={{ color: "brand.gold" }}>Termos de uso</Link>
-          </Stack>
-
-          {/* CONTATO */}
-          <Stack>
-            <Text color="white" fontWeight="bold">Contato</Text>
-            <Text fontSize="sm">📧 suporte@arabarberpro.com</Text>
-            <Text fontSize="sm">📱 (82) 99910-6277</Text>
-          </Stack>
-
-        </SimpleGrid>
-
-        {/* Linha inferior */}
-        <Flex
-          mt={16}
-          pt={6}
-          borderTop="1px solid rgba(255,255,255,0.08)"
-          justify="space-between"
-          direction={{ base: "column", md: "row" }}
-          align="center"
-          gap={4}
-        >
-          <Text fontSize="sm">
-            © {new Date().getFullYear()} AraBarberPRO. Todos os direitos reservados.
-          </Text>
-
-          <Flex gap={6}>
-            <Link href='/privacidade' _hover={{ color: "brand.gold" }}>Privacidade</Link>
-            <Link href='/termos' _hover={{ color: "brand.gold" }}>Termos</Link>
           </Flex>
-        </Flex>
-      </Container>
-
-    
+        </Container>
+      </Box>
     </Box>
-
-
-    </Box>
-  )
+  );
 }
