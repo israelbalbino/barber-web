@@ -14,7 +14,7 @@ interface AuthContextData {
     handleUpdate: ( credentials: SignUpdateProps) => Promise<void>
     handleNewHaircut: (credentials: HandleHaircut) => Promise<void>
     handleUpdateHaircut: (credentials: HandleUpHaircut) => Promise<void>
-    handleNewService: (credentials: HandleNewService) => Promise<void>
+ 
 }
 
 interface UserProps {
@@ -171,13 +171,11 @@ export function AuthProvider({ children } : AuthProviderProps){
 
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-        if(client === "cliente"){
-
-            Router.push('/report/cliente')
-
-        }else{
-            Router.push('/report/barbeiro')
-        }
+        await Router.replace(
+            client === "cliente"
+               ? "/report/cliente"
+               : "/report/barbeiro"
+         );
 
         
             
@@ -288,28 +286,10 @@ export function AuthProvider({ children } : AuthProviderProps){
         }
     }
 
-    async function handleNewService({haircut_id,customer,avatar} : HandleNewService) {
-
-       
-        try {
-
-            const response = await api.post('/service',{
-                haircut_id,
-                customer,
-                avatar
-            })
-            
-            Router.push('/dashboard/barbeiro')
-            
-        } catch (error) {
-
-            console.log("ERRO AO CADASTRAR SERVIÇO")
-            
-        }
-    }
+   
     
     return(
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp, logoutUser, handleUpdate,handleNewHaircut,handleUpdateHaircut,handleNewService}}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp, logoutUser, handleUpdate,handleNewHaircut,handleUpdateHaircut}}>
 
             {children}
 

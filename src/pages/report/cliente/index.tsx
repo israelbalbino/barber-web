@@ -18,7 +18,7 @@ import { Sidebarcli } from "@/components/sidebarland";
 import { setupAPIClient } from "@/services/api";
 import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-import { api } from "@/services/apiClient";
+
 
 import {
   Modal,
@@ -146,6 +146,8 @@ export default function Cliente({ totalServicos,shedule }: ServiceProps) {
     // 🔥 entra na sala certa
   socketRef.current.emit("join_barbearia", service.id);
 
+  
+
       const clientePremium = !!user?.subscriptions?.status;
       const barbeariaPremium = !!service.subscriptions?.status;
       setNameBarber(service.name)
@@ -160,6 +162,8 @@ export default function Cliente({ totalServicos,shedule }: ServiceProps) {
       setLoading(true);
 
       console.log(service.id)
+
+      const api = setupAPIClient();
 
       const response = await api.get(
         `${process.env.NEXT_PUBLIC_API_URL}/list/user`,
@@ -195,6 +199,9 @@ export default function Cliente({ totalServicos,shedule }: ServiceProps) {
 
   async function atualizaDados(){
    try{
+
+    const api = setupAPIClient();
+    
     const response = await api.get(
       `${process.env.NEXT_PUBLIC_API_URL}/list/user`,
       {

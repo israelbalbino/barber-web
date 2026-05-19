@@ -16,6 +16,7 @@ import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import { Router, useRouter } from "next/router";
 
 interface HaircutsItem {
   id: string;
@@ -32,22 +33,35 @@ interface HaircutsProps {
 export default function New({ haircuts }: HaircutsProps) {
   const [isMobile] = useMediaQuery("(max-width:768px)");
 
-  const { handleNewService } = useContext(AuthContext);
-
   const [customer, setCustomer] = useState("");
   const [haircutList] = useState<HaircutsItem[]>(haircuts || []);
   const [haircut_id, setHaircut_id] = useState(haircutList[0]?.id);
   const [avatar, setAvatar] = useState("")
+  const router = useRouter();
 
 
   async function handleService() {
     if (!customer || !haircut_id) return;
 
-    await handleNewService({
-      haircut_id,
-      customer,
-      avatar
-    });
+    try {
+
+      const api = setupAPIClient();
+
+      const response = await api.post('/service',{
+          haircut_id,
+          customer,
+          avatar
+      })
+
+      router.push('/dashboard/barbeiro')
+      
+     
+      
+  } catch (error) {
+
+      console.log("ERRO AO CADASTRAR SERVIÇO")
+      
+  }
   }
 
   return (
