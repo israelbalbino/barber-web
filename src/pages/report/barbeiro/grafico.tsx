@@ -112,28 +112,29 @@ export default function ChartCard({
               outline: "none",
             }}
             margin={{
-              top: 10,
-              right: 10,
-              left: -20,
+              top: 0,
+              right: 0,
+              left: 13,
               bottom: 0,
             }}
           >
             <XAxis
               dataKey="name"
               tick={{
-                fill: "#94a3b8",
-                fontSize: 12,
+                fill: "#FFF",
+                fontSize: 10,
               }}
+              
               axisLine={false}
               tickLine={false}
+              dy={10}
+              
+            
             />
 
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{
-                stroke: "#FFF",
-                strokeDasharray: "5 5",
-              }}
+              cursor={false}
             />
 
             <Line
