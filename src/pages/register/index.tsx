@@ -30,6 +30,7 @@ const poppins700 = Poppins({ subsets: ["latin"], weight: ["700"] });
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [password, setPassword] = useState("");
   const [client, setClient] = useState("barbeiro");
 
@@ -62,7 +63,7 @@ export default function Register() {
   async function handleRegister() {
     setError("");
 
-    if (!name || !email || !password || !file) {
+    if (!name || !email || !telefone || !password || !file) {
       setError("Preencha todos os campos");
       return;
     }
@@ -72,9 +73,12 @@ export default function Register() {
 
       const avatar = await uploadImage(file);
 
+      const telefoneLimpo = telefone.replace(/\D/g, "");
+
       await signUp({
         name,
         email,
+        telefone:telefoneLimpo,
         password,
         client,
         avatar: avatar.url,
@@ -208,7 +212,7 @@ export default function Register() {
 
           {/* INPUTS */}
           <Input
-            placeholder="Nome e sobrenome"
+            placeholder={client === "cliente" ? "Nome e sobrenome" :"Nome da Barbearia"}
             mb={3}
             size="lg"
             bg="rgba(255,255,255,0.05)"
@@ -218,6 +222,32 @@ export default function Register() {
             onChange={(e) => setName(e.target.value)}
           />
 
+<Input
+  type="tel"
+  placeholder="Celular"
+  mb={3}
+  size="lg"
+  bg="rgba(255,255,255,0.05)"
+  border="1px solid rgba(255,255,255,0.08)"
+  _focus={{
+    borderColor: "#D4AF37",
+    boxShadow: "0 0 0 1px #D4AF37",
+  }}
+  value={telefone}
+  onChange={(e) => {
+
+    let value = e.target.value
+      .replace(/\D/g, "")
+      .slice(0, 11);
+
+    value = value
+      .replace(/^(\d{2})(\d)/g, "($1) $2")
+      .replace(/(\d{5})(\d)/, "$1-$2");
+
+    setTelefone(value);
+
+  }}
+/>
           <Input
             placeholder="Email"
             mb={3}

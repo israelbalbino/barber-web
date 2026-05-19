@@ -46,6 +46,7 @@ interface SignInProps{
 interface SignUpProps{
     name:string;
     avatar: string;
+    telefone: string;
     delete_avatar_url: string;
     email: string;
     password:string;
@@ -184,7 +185,7 @@ export function AuthProvider({ children } : AuthProviderProps){
         }
     }
 
-    async function signUp({name,avatar, delete_avatar_url, email, password, client} : SignUpProps) {
+    async function signUp({name,avatar, delete_avatar_url, email, telefone, password, client} : SignUpProps) {
 
       
 
@@ -193,6 +194,7 @@ export function AuthProvider({ children } : AuthProviderProps){
                 name,
                 avatar,
                 email,
+                telefone,
                 password,
                 client,
                 delete_avatar_url
