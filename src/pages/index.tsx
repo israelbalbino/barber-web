@@ -505,22 +505,13 @@ export default function LandingPage() {
                   fontSize="6xl"
                   fontWeight="black"
                 >
-                  7
+                  R$49,90
                 </Heading>
 
-                <Text
-                  color="brand.gold"
-                  fontSize="2xl"
-                  fontWeight="bold"
-                  mb={3}
-                >
-                  dias grátis
-                </Text>
+               
               </Flex>
 
-              <Text color="gray.400" mb={8}>
-                Depois apenas R$ 49,90/mês
-              </Text>
+             
 
               <Stack spacing={4} color="gray.200">
                 <Text>✓ Tudo do Basic</Text>
@@ -645,7 +636,10 @@ export default function LandingPage() {
           </Text>
 
           <Button
-            onClick={handlePlanos}
+             as="a"
+             href="https://wa.me/5582999106277?text=Ol%C3%A1%20AraBarberPRO,%20quero%20mais%20informa%C3%A7%C3%B5es!"
+             target="_blank"
+             rel="noopener noreferrer"
             h="80px"
             px={16}
             rounded="2xl"
